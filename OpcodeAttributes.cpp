@@ -260,7 +260,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_DO_CHECK, COpcodeAttributes("O_DO_CHECK", "do_check", 3, expression));
     SetAt(O_IS_SUCCESS, COpcodeAttributes("O_IS_SUCCESS", "is_success", 1, expression));
     SetAt(O_IS_CRITICAL, COpcodeAttributes("O_IS_CRITICAL", "is_critical", 1, expression));
-    SetAt(O_HOW_MUCH, COpcodeAttributes("O_HOW_MUCH", "how_much", 0, expression));
+    SetAt(O_HOW_MUCH, COpcodeAttributes("O_HOW_MUCH", "how_much", 1, expression));
     SetAt(O_MARK_AREA_KNOWN, COpcodeAttributes("O_MARK_AREA_KNOWN", "mark_area_known", 3));
     SetAt(O_REACTION_INFLUENCE, COpcodeAttributes("O_REACTION_INFLUENCE", "reaction_influence", 3, expression));
     SetAt(O_RANDOM, COpcodeAttributes("O_RANDOM", "random", 2, expression));
@@ -757,7 +757,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_TYPEOF,                    COpcodeAttributes("O_TS_TYPEOF", "typeof",             1, expression));
     SetAt(O_TS_LOG,                       COpcodeAttributes("O_TS_LOG", "log",           1, expression)); // sfall 3.5
     SetAt(O_TS_EXP,                       COpcodeAttributes("O_TS_EXP", "exponent",      1, expression)); // sfall 3.5
-    //SetAt(O_TS_CEIL,                        COpcodeAttributes("O_TS_CEIL", "ceil",         1, expression));
+    SetAt(O_TS_CEIL,                      COpcodeAttributes("O_TS_CEIL", "ceil",         1, expression)); // sfall 3.5
     SetAt(O_TS_ROUND,                     COpcodeAttributes("O_TS_ROUND", "round",       1, expression)); // sfall 3.5
     SetAt(O_TS_SAVE_ARRAY,                COpcodeAttributes("O_TS_SAVE_ARRAY", "save_array",     2));
     SetAt(O_TS_LOAD_ARRAY,                COpcodeAttributes("O_TS_LOAD_ARRAY", "load_array",     1, expression));

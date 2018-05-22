@@ -54,18 +54,18 @@ std::string escape_str(std::string input)
     for (std::string::size_type i = 0; i < input.length(); ++i)
     {
         switch (input[i])
-		{
-			case '\n':
-				output += "\\n";
-				break;
+        {
+            case '\n':
+                output += "\\n";
+                break;
 
-			case '\r':
-				output += "\\r";
-				break;
+            case '\r':
+                output += "\\r";
+                break;
 
-			default:
-				output += input[i];
-				break;;
+            default:
+                output += input[i];
+                break;
         }
     }
     return output;

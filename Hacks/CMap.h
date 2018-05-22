@@ -42,7 +42,7 @@ class CMap
         {
             if (_map.find(offset) != _map.end())
             {
-                _map.at(offset) = value;
+                _map.find(offset)->second = value;
             }
 
             _map.insert(std::pair<A, C>(offset, value));
