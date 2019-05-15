@@ -90,8 +90,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="Win2kHack.asm">
-      <Filter>Source Files</Filter>
-    </MASM>
+    <MASM Include="win2kcompat.asm" />
   </ItemGroup>
 </Project>
