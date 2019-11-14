@@ -763,6 +763,7 @@ public:
         O_TS_SFALL_METARULE6,
 
         O_TS_REGISTER_HOOK_PROC2,
+        O_TS_REG_ANIM_CALLBACK,
 //sfall end
 
         O_END_OP

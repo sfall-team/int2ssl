@@ -74,7 +74,8 @@ COpcode::CF1OpcodeAttributesMap::CF1OpcodeAttributesMap()
     SetAt(O_TOWN_MAP, COpcodeAttributes("O_TOWN_MAP", "town_map", 0));
 }
 
-uint32_t procArgs_register_hook_proc[1] = {2};
+uint32_t procArgs[] = {1, 2};
+//uint32_t procArgs_register_hook_proc[1] = {2};
 
 COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
 {
@@ -775,7 +776,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_EXPLOSIONS_METARULE, COpcodeAttributes("O_TS_EXPLOSIONS_METARULE", "metarule2_explosions",    3, expression));
 
     // sfall 3.5
-    SetAt(O_TS_REGISTER_HOOK_PROC, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC", "register_hook_proc",    2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, procArgs_register_hook_proc, 1));
+    SetAt(O_TS_REGISTER_HOOK_PROC, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC", "register_hook_proc",    2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[1], 1));
     SetAt(O_TS_POW, COpcodeAttributes("O_POW", "^", 2, expression, infix));
     SetAt(O_TS_MESSAGE_STR_GAME, COpcodeAttributes("O_TS_MESSAGE_STR_GAME", "message_str_game",  2, expression));
     SetAt(O_TS_SNEAK_SUCCESS, COpcodeAttributes("O_TS_SNEAK_SUCCESS", "sneak_success",   0, expression));
@@ -799,7 +800,9 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_SFALL_METARULE6, COpcodeAttributes("O_TS_SFALL_METARULE6", "sfall_func6", 7, expression));
 
     // sfall 4.2/3.8.20
-    SetAt(O_TS_REGISTER_HOOK_PROC2, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC2", "register_hook_proc_spec", 2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, procArgs_register_hook_proc, 1));
+    SetAt(O_TS_REGISTER_HOOK_PROC2, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC2", "register_hook_proc_spec", 2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[1], 1));
+    // sfall 4.2.2/3.8.22
+    SetAt(O_TS_REG_ANIM_CALLBACK, COpcodeAttributes("O_TS_REG_ANIM_CALLBACK", "reg_anim_callback", 1, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[0], 1));
     // sfall end
 
     SetAt(O_STRINGOP, COpcodeAttributes("O_STRINGOP", "", 0, expression));
