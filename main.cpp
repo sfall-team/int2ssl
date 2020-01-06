@@ -162,7 +162,7 @@ bool ProcessCommandLine(int argc, char* argv[])
     int c;
     int nIndentWidth;
 
-    while((c = getopt(argc, argv, "d1abes:")) != EOF)
+    while((c = getopt(argc, argv, "d1abes:c")) != EOF)
     {
         switch (c)
         {
@@ -207,6 +207,7 @@ bool ProcessCommandLine(int argc, char* argv[])
                     g_strIndentFill += " ";
                 }
                 break;
+
             case 'c':
                 useOldShortCircuit = true;
                 break;
