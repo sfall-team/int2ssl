@@ -11,6 +11,7 @@
 
 // int2ssl includes
 #include "Opcode.h"
+#include "main.h"
 
 // Third party includes
 
@@ -64,7 +65,7 @@ COpcode::CF1OpcodeAttributesMap::CF1OpcodeAttributesMap()
     //COpcode::COpcodeAttributes::Category infix = COpcode::COpcodeAttributes::CATEGORY_INFIX;
 
     InitHashTable(32);
-    
+
     SetAt(O_REACTION, COpcodeAttributes("O_REACTION", "reaction", 3, expression));
     SetAt(O_ANIMATE_JUMP, COpcodeAttributes("O_ANIMATE_JUMP", "animate_jump", 0));
     SetAt(O_TURN_OFF_OBJS_IN_AREA, COpcodeAttributes("O_TURN_OFF_OBJS_IN_AREA", "turn_off_objs_in_area", 4));
@@ -427,7 +428,10 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_DEBUG_MSG, COpcodeAttributes("O_DEBUG_MSG", "debug_msg", 1));
     SetAt(O_CRITTER_STOP_ATTACKING, COpcodeAttributes("O_CRITTER_STOP_ATTACKING", "critter_stop_attacking", 1));
 
-    //sall start
+    SetAt(O_AND_ALSO, COpcodeAttributes("O_AND_ALSO", (useOldShortCircuit) ? "and" : "andAlso", 2, expression, infix));
+    SetAt(O_OR_ELSE, COpcodeAttributes("O_OR_ELSE", (useOldShortCircuit) ? "or" : "orElse", 2, expression, infix));
+
+    //sfall start
 
     SetAt(O_READ_BYTE, COpcodeAttributes("O_READ_BYTE", "read_byte", 1, expression));
     SetAt(O_READ_SHORT, COpcodeAttributes("O_READ_SHORT", "read_short", 1, expression));
@@ -604,8 +608,6 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_GET_BODYPART_HIT_MODIFIER, COpcodeAttributes("O_GET_BODYPART_HIT_MODIFIER", "get_bodypart_hit_modifier", 1, expression));
     SetAt(O_SET_BODYPART_HIT_MODIFIER, COpcodeAttributes("O_SET_BODYPART_HIT_MODIFIER", "set_bodypart_hit_modifier", 2));
 
-
-
     //1.41
     SetAt(O_SET_CRITICAL_TABLE, COpcodeAttributes("O_SET_CRITICAL_TABLE", "set_critical_table", 5));
     SetAt(O_GET_CRITICAL_TABLE, COpcodeAttributes("O_GET_CRITICAL_TABLE", "get_critical_table", 4, expression));
@@ -676,7 +678,6 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_SET_CRITTER_BURST_DISABLE,  COpcodeAttributes("O_SET_CRITTER_BURST_DISABLE",  "set_critter_burst_disable",  2));
 
 
-
     SetAt(O_GET_WEAPON_AMMO_PID,        COpcodeAttributes("O_GET_WEAPON_AMMO_PID", "get_weapon_ammo_pid",               1, expression));
     SetAt(O_SET_WEAPON_AMMO_PID,        COpcodeAttributes("O_SET_WEAPON_AMMO_PID", "set_weapon_ammo_pid",               2));
     SetAt(O_GET_WEAPON_AMMO_COUNT,      COpcodeAttributes("O_GET_WEAPON_AMMO_COUNT", "get_weapon_ammo_count",           1, expression));
@@ -716,7 +717,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_ATOI,                   COpcodeAttributes("O_TS_ATOI", "atoi",                                           1, expression));
     SetAt(O_TS_ATOF,                   COpcodeAttributes("O_TS_ATOF", "atof",                                           1, expression));
 
-    // sfall 2.9a 
+    // sfall 2.9a
     SetAt(O_TS_SCAN_ARRAY,             COpcodeAttributes("O_TS_SCAN_ARRAY", "scan_array",                               2, expression));
     SetAt(O_TS_TILE_PID,               COpcodeAttributes("O_TS_TILE_PID", "get_tile_fid",                               1, expression));
     SetAt(O_TS_MODIFIED_INI,           COpcodeAttributes("O_TS_MODIFIED_INI", "modified_ini",                           0, expression));
@@ -725,15 +726,15 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     // sfall 2.12
     SetAt(O_TS_SET_SFALL_ARG,          COpcodeAttributes("O_TS_GET_SFALL_ARG", "set_sfall_arg",                         2));
 
-    // sfall 2.16   
+    // sfall 2.16
     SetAt(O_TS_FORCE_AIMED_SHOTS,      COpcodeAttributes("O_TS_FORCE_AIMED_SHOTS", "force_aimed_shots",                 1));
     SetAt(O_TS_DISABLE_AIMED_SHOTS,    COpcodeAttributes("O_TS_DISABLE_AIMED_SHOTS", "disable_aimed_shots",             1));
     SetAt(O_TS_MARK_MOVIE_PLAYED,      COpcodeAttributes("O_TS_MARK_MOVIE_PLAYED", "mark_movie_played",                 1));
 
-    // sfall 2.17   
+    // sfall 2.17
     SetAt(O_TS_GET_NPC_LEVEL,          COpcodeAttributes("O_TS_GET_NPC_LEVEL", "get_npc_level",                         1, expression));
 
-    // sfall 3.0   
+    // sfall 3.0
     SetAt(O_TS_SET_CRITTER_SKILL_POINTS,    COpcodeAttributes("O_TS_SET_CRITTER_SKILL_POINTS", "set_critter_skill_points",      3));
     SetAt(O_TS_GET_CRITTER_SKILL_POINTS,    COpcodeAttributes("O_TS_GET_CRITTER_SKILL_POINTS", "get_critter_skill_points",      2, expression));
     SetAt(O_TS_SET_AVAILABLE_SKILL_POINTS,  COpcodeAttributes("O_TS_SET_AVAILABLE_SKILL_POINTS", "set_available_skill_points",  1));
@@ -744,7 +745,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_GET_LAST_ATTACKER,           COpcodeAttributes("O_TS_GET_LAST_ATTACKER", "get_last_target",                      1, expression));
     SetAt(O_TS_BLOCK_COMBAT,                COpcodeAttributes("O_TS_BLOCK_COMBAT", "block_combat",                              1));
 
-    // sfall 3.3   
+    // sfall 3.3
     SetAt(O_TS_TILE_UNDER_CURSOR,               COpcodeAttributes("O_TS_TILE_UNDER_CURSOR", "tile_under_cursor",                             0, expression));
     SetAt(O_TS_GET_BARTER_MOD,                   COpcodeAttributes("O_TS_GET_BARTER_MOD", "gdialog_get_barter_mod",                      0, expression));
     SetAt(O_TS_SET_INVEN_AP_COST,                COpcodeAttributes("O_TS_SET_INVEN_AP_COST", "set_inven_ap_cost",                            1));

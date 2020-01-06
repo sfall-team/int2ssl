@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="FalloutScript.h" />
     <ClInclude Include="Hacks\CMap.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="Namespace.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ObjectAttributes.h" />

@@ -730,7 +730,7 @@ public:
 
         O_TS_EXPLOSIONS_METARULE,
         O_TS_REGISTER_HOOK_PROC,
-        
+
         O_TS_POW,
         O_TS_LOG,
         O_TS_EXP,
@@ -767,6 +767,11 @@ public:
 //sfall end
 
         O_END_OP
+    };
+
+    enum O_COND {
+        O_AND_ALSO = O_END_OP,
+        O_OR_ELSE
     };
 
     enum O_DataType {

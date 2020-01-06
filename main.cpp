@@ -33,6 +33,7 @@ std::ofstream g_ofstream;
 std::string g_inputFileName;
 std::string g_outputFileName;
 
+bool useOldShortCircuit = false;
 
 // Functions
 void PrintUsage(std::string filename);
@@ -40,10 +41,10 @@ bool ProcessCommandLine(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 { 
-    std::cout << "Fallout script decompiler, version 8.4.4 (sfall edition)" << std::endl
+    std::cout << "Fallout script decompiler, version 8.4.5 (sfall edition)" << std::endl
               << "Copyright (C) Anchorite (TeamX), 2005-2009" << std::endl
               << "anchorite2001@yandex.ru" << std::endl
-              << "Continued by Nirran, phobos2077 (2014-2019)" << std::endl
+              << "Continued by Nirran, phobos2077, Mr.Stalin (2014-2020)" << std::endl
               << "Crossplatformed by alexeevdv (2015)" << std::endl;
 
     if (argc < 2 || !ProcessCommandLine(argc, argv))
@@ -152,6 +153,7 @@ void PrintUsage(std::string filename)
               << "  -b: insert omitted arguments backward" << std::endl
               << "  -s: use Space instead of tab to indent" << std::endl
               << "  -e: stop decompiling on error" << std::endl
+              << "  -c: use AND/OR operators for short-circuit evaluation" << std::endl
               << "  --: end of options" << std::endl;
 }
 
@@ -204,6 +206,9 @@ bool ProcessCommandLine(int argc, char* argv[])
                 {
                     g_strIndentFill += " ";
                 }
+                break;
+            case 'c':
+                useOldShortCircuit = true;
                 break;
         }
     }

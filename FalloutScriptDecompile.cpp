@@ -34,7 +34,7 @@ void CFalloutScript::InitDefinitions()
     for(int32_t i = 0; i < m_Namespace.GetSize(); i++)
     {
         ulNameOffset = m_Namespace.GetOffsetByIndex(i);
-        
+
         if ((nObjectIndex = GetIndexOfProc(ulNameOffset)) != -1)
         {
             m_Definitions.SetAt(ulNameOffset, CDefObject(CDefObject::OBJECT_PROCEDURE, 0, uint32_t(nObjectIndex)));
@@ -62,7 +62,7 @@ void CFalloutScript::ProcessCode()
     InitialReduce();
 
     printf("    Building execution tree\n");
-    
+
     for(uint32_t i = 0; i < m_ProcTable.GetSize(); i++)
     {
         printf("        Procedure: %d\n", i);
@@ -70,7 +70,7 @@ void CFalloutScript::ProcessCode()
     }
 
     printf("    Extracting and reducing conditions\n");
-    
+
     for(uint32_t i = 0; i < m_ProcTable.GetSize(); i++)
     {
         if (m_ProcTable[i].m_ulType & P_CONDITIONAL)
@@ -96,7 +96,7 @@ void CFalloutScript::ProcessCode()
                 do
                 {
                     node = m_ProcBodies[i][j = NextNodeIndex(m_ProcBodies[i], j, -1)];
-                } 
+                }
                 while(node.m_ulOffset != ulCondStartAddress);
 
                 j = NextNodeIndex(m_ProcBodies[i], j, -1);   // For O_JMP opcode
@@ -362,9 +362,9 @@ void CFalloutScript::InitialReduce()
                     {
                         // short circuit AND
                         uint16_t actualOperator = CheckSequenceOfNodes(m_ProcBodies[i], j, awShortCircuitAnd, 5)
-                                        ? COpcode::O_AND 
+                                        ? COpcode::O_AND_ALSO
                                         : (CheckSequenceOfNodes(m_ProcBodies[i], j, awShortCircuitOr, 6)
-                                            ? COpcode::O_OR
+                                            ? COpcode::O_OR_ELSE
                                             : 0);
                         if (actualOperator)
                         {
@@ -378,9 +378,9 @@ void CFalloutScript::InitialReduce()
                             while (skipOffset > m_ProcBodies[i][k].m_ulOffset);
 
                             m_ProcBodies[i].insert(m_ProcBodies[i].begin() + k, m_ProcBodies[i][j]);
-                            m_ProcBodies[i][k].m_Opcode.SetOperator(actualOperator); // place AND/OR here, so BuildTree() will treat it as a regular binary operator
+                            m_ProcBodies[i][k].m_Opcode.SetOperator(actualOperator); // place ANDALSO/ORELSE here, so BuildTree() will treat it as a regular binary operator
                             m_ProcBodies[i][k].m_ulOffset = m_ProcBodies[i][k-1].m_ulOffset + COpcode::OPERATOR_SIZE; // adjust offset
-                            m_ProcBodies[i].erase(m_ProcBodies[i].begin() + j, m_ProcBodies[i].begin() + j + (actualOperator == COpcode::O_AND ? 5 : 6)); // reduce
+                            m_ProcBodies[i].erase(m_ProcBodies[i].begin() + j, m_ProcBodies[i].begin() + j + (actualOperator == COpcode::O_AND_ALSO ? 5 : 6)); // reduce
                         }
                         else
                         {
@@ -689,7 +689,7 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
         NodeArray.insert(NodeArray.begin() + nLastNodeIndex + 1, CNode(c_NodeEndOfBlock));
         NodeArray[nLastNodeIndex].m_ulOffset = ulOffset;
     }
-    
+
     // Body
     //CNode node;
 
@@ -801,7 +801,7 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
                 NodeArray.insert(NodeArray.begin() + i + 1, CNode(c_NodeBeginOfBlock));
                 NodeArray[i + 1].m_ulOffset = NodeArray[i + 2].m_ulOffset;
                 ulOffset = node.m_Opcode.GetArgument(); // offset for jump
-                    
+
                 int32_t nNodeIndex = i + 1;
 
                 do
