@@ -1090,6 +1090,7 @@ int CFalloutScript::GetPriority(uint16_t wOperator)
         case COpcode::O_DIV:
         case COpcode::O_MOD:
         case COpcode::O_TS_POW:
+        case COpcode::O_TS_DIV: // sfall unsigned division
             return 5;
         
         default:

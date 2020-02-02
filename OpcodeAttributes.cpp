@@ -735,20 +735,20 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_GET_NPC_LEVEL,          COpcodeAttributes("O_TS_GET_NPC_LEVEL", "get_npc_level",                         1, expression));
 
     // sfall 3.0
-    SetAt(O_TS_SET_CRITTER_SKILL_POINTS,    COpcodeAttributes("O_TS_SET_CRITTER_SKILL_POINTS", "set_critter_skill_points",      3));
-    SetAt(O_TS_GET_CRITTER_SKILL_POINTS,    COpcodeAttributes("O_TS_GET_CRITTER_SKILL_POINTS", "get_critter_skill_points",      2, expression));
-    SetAt(O_TS_SET_AVAILABLE_SKILL_POINTS,  COpcodeAttributes("O_TS_SET_AVAILABLE_SKILL_POINTS", "set_available_skill_points",  1));
-    SetAt(O_TS_GET_AVAILABLE_SKILL_POINTS,  COpcodeAttributes("O_TS_GET_AVAILABLE_SKILL_POINTS", "get_available_skill_points",  0, expression));
-    SetAt(O_TS_MOD_SKILL_POINTS_PER_LEVEL,  COpcodeAttributes("O_TS_MOD_SKILL_POINTS_PER_LEVEL", "mod_skill_points_per_level",  1));
-    SetAt(O_TS_SET_PERK_FREQ,               COpcodeAttributes("O_TS_SET_PERK_FREQ", "set_perk_freq",                            1));
-    SetAt(O_TS_GET_LAST_TARGET,             COpcodeAttributes("O_TS_GET_LAST_TARGET", "get_last_attacker",                      1, expression));
-    SetAt(O_TS_GET_LAST_ATTACKER,           COpcodeAttributes("O_TS_GET_LAST_ATTACKER", "get_last_target",                      1, expression));
-    SetAt(O_TS_BLOCK_COMBAT,                COpcodeAttributes("O_TS_BLOCK_COMBAT", "block_combat",                              1));
+    SetAt(O_TS_SET_CRITTER_SKILL_POINTS,   COpcodeAttributes("O_TS_SET_CRITTER_SKILL_POINTS", "set_critter_skill_points",      3));
+    SetAt(O_TS_GET_CRITTER_SKILL_POINTS,   COpcodeAttributes("O_TS_GET_CRITTER_SKILL_POINTS", "get_critter_skill_points",      2, expression));
+    SetAt(O_TS_SET_AVAILABLE_SKILL_POINTS, COpcodeAttributes("O_TS_SET_AVAILABLE_SKILL_POINTS", "set_available_skill_points",  1));
+    SetAt(O_TS_GET_AVAILABLE_SKILL_POINTS, COpcodeAttributes("O_TS_GET_AVAILABLE_SKILL_POINTS", "get_available_skill_points",  0, expression));
+    SetAt(O_TS_MOD_SKILL_POINTS_PER_LEVEL, COpcodeAttributes("O_TS_MOD_SKILL_POINTS_PER_LEVEL", "mod_skill_points_per_level",  1));
+    SetAt(O_TS_SET_PERK_FREQ,              COpcodeAttributes("O_TS_SET_PERK_FREQ", "set_perk_freq",                            1));
+    SetAt(O_TS_GET_LAST_TARGET,            COpcodeAttributes("O_TS_GET_LAST_TARGET", "get_last_attacker",                      1, expression));
+    SetAt(O_TS_GET_LAST_ATTACKER,          COpcodeAttributes("O_TS_GET_LAST_ATTACKER", "get_last_target",                      1, expression));
+    SetAt(O_TS_BLOCK_COMBAT,               COpcodeAttributes("O_TS_BLOCK_COMBAT", "block_combat",                              1));
 
     // sfall 3.3
-    SetAt(O_TS_TILE_UNDER_CURSOR,               COpcodeAttributes("O_TS_TILE_UNDER_CURSOR", "tile_under_cursor",                             0, expression));
-    SetAt(O_TS_GET_BARTER_MOD,                   COpcodeAttributes("O_TS_GET_BARTER_MOD", "gdialog_get_barter_mod",                      0, expression));
-    SetAt(O_TS_SET_INVEN_AP_COST,                COpcodeAttributes("O_TS_SET_INVEN_AP_COST", "set_inven_ap_cost",                            1));
+    SetAt(O_TS_TILE_UNDER_CURSOR,         COpcodeAttributes("O_TS_TILE_UNDER_CURSOR", "tile_under_cursor",                             0, expression));
+    SetAt(O_TS_GET_BARTER_MOD,            COpcodeAttributes("O_TS_GET_BARTER_MOD", "gdialog_get_barter_mod",                      0, expression));
+    SetAt(O_TS_SET_INVEN_AP_COST,         COpcodeAttributes("O_TS_SET_INVEN_AP_COST", "set_inven_ap_cost",                            1));
 
     // sfall 3.4
     SetAt(O_TS_SUBSTR,                    COpcodeAttributes("O_TS_SUBSTR", "substr",             3, expression));
@@ -774,7 +774,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_REG_ANIM_TAKE_OUT,         COpcodeAttributes("O_TS_REG_ANIM_TAKE_OUT", "reg_anim_take_out",  3));
     SetAt(O_TS_REG_ANIM_TURN_TOWARDS,     COpcodeAttributes("O_TS_REG_ANIM_TURN_TOWARDS", "reg_anim_turn_towards",  3));
 
-    SetAt(O_TS_EXPLOSIONS_METARULE, COpcodeAttributes("O_TS_EXPLOSIONS_METARULE", "metarule2_explosions",    3, expression));
+    SetAt(O_TS_EXPLOSIONS_METARULE,       COpcodeAttributes("O_TS_EXPLOSIONS_METARULE", "metarule2_explosions",    3, expression));
 
     // sfall 3.5
     SetAt(O_TS_REGISTER_HOOK_PROC, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC", "register_hook_proc",    2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[1], 1));
@@ -804,6 +804,8 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_REGISTER_HOOK_PROC2, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC2", "register_hook_proc_spec", 2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[1], 1));
     // sfall 4.2.2/3.8.22
     SetAt(O_TS_REG_ANIM_CALLBACK, COpcodeAttributes("O_TS_REG_ANIM_CALLBACK", "reg_anim_callback", 1, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[0], 1));
+    // sfall 4.2.3/3.8.23
+    SetAt(O_TS_DIV, COpcodeAttributes("O_TS_DIV", "div", 2, expression, infix)); // the operator for unsigned division
     // sfall end
 
     SetAt(O_STRINGOP, COpcodeAttributes("O_STRINGOP", "", 0, expression));

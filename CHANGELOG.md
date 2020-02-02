@@ -2,6 +2,7 @@ int2ssl
 =====
 #### 8.4.5
 - Added new logical operators `AndAlso`, `OrElse`
+- Added support for new `div` operator (unsigned integer division)
 
 #### 8.4.4
 - Added support for new opcodes `register_hook_proc_spec`, `reg_anim_callback`
