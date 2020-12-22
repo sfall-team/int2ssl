@@ -765,6 +765,9 @@ public:
         O_TS_REGISTER_HOOK_PROC2,
         O_TS_REG_ANIM_CALLBACK,
         O_TS_DIV,
+
+        O_TS_SFALL_METARULE7,
+        O_TS_SFALL_METARULE8,
 //sfall end
 
         O_END_OP

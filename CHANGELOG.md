@@ -1,5 +1,8 @@
 int2ssl
 =====
+#### 8.4.6
+- Added support for additional universal opcodes `sfall_func7` and `sfall_func8`
+
 #### 8.4.5
 - Added new logical operators `AndAlso`, `OrElse`
 - Added support for new `div` operator (unsigned integer division)

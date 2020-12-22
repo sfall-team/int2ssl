@@ -806,6 +806,9 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_REG_ANIM_CALLBACK, COpcodeAttributes("O_TS_REG_ANIM_CALLBACK", "reg_anim_callback", 1, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[0], 1));
     // sfall 4.2.3/3.8.23
     SetAt(O_TS_DIV, COpcodeAttributes("O_TS_DIV", "div", 2, expression, infix)); // the operator for unsigned division
+    // sfall 4.2.9/3.8.29
+    SetAt(O_TS_SFALL_METARULE7, COpcodeAttributes("O_TS_SFALL_METARULE7", "sfall_func7", 8, expression));
+    SetAt(O_TS_SFALL_METARULE8, COpcodeAttributes("O_TS_SFALL_METARULE8", "sfall_func8", 9, expression));
     // sfall end
 
     SetAt(O_STRINGOP, COpcodeAttributes("O_STRINGOP", "", 0, expression));

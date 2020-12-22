@@ -41,7 +41,7 @@ bool ProcessCommandLine(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 { 
-    std::cout << "Fallout script decompiler, version 8.4.5 (sfall edition)" << std::endl
+    std::cout << "Fallout script decompiler, version 8.4.6 (sfall edition)" << std::endl
               << "Copyright (C) Anchorite (TeamX), 2005-2009" << std::endl
               << "anchorite2001@yandex.ru" << std::endl
               << "Continued by Nirran, phobos2077, Mr.Stalin (2014-2020)" << std::endl
