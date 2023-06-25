@@ -16,11 +16,20 @@
 
 // Third party includes
 
-extern std::ifstream g_ifstream;
-extern std::ofstream g_ofstream;
-
-CFalloutScript::CFalloutScript()
+CFalloutScript::CFalloutScript(std::ifstream& ifstream, std::ofstream& ofstream) : m_ifstream(ifstream), m_ofstream(ofstream)
 {
+    // Both streams must be prepared before this constructor is called
+
+    if (!ifstream.is_open())
+    {
+        printf("Error: input stream closed\n");
+        throw std::exception();
+    }
+    else if (!ofstream.is_open())
+    {
+        printf("Error: output stream closed\n");
+        throw std::exception();
+    }
 }
 
 CFalloutScript::~CFalloutScript()
@@ -31,24 +40,24 @@ void CFalloutScript::Serialize()
 {
 
     std::cout << "  Read startup code" << std::endl;
-    m_StartupCode.Serialize();
+    m_StartupCode.Serialize(m_ifstream);
 
     std::cout << "  Read procedures table" << std::endl;
-    m_ProcTable.Serialize();
+    m_ProcTable.Serialize(m_ifstream);
 
     std::cout << "  Read namespace" << std::endl;
-    m_Namespace.Serialize();
+    m_Namespace.Serialize(m_ifstream);
 
     std::cout << "  Read stringspace" << std::endl;
-    m_Stringspace.Serialize();
+    m_Stringspace.Serialize(m_ifstream);
 
     COpcode opcode;
 
     std::cout << "  Read tail of startup code" << std::endl;
-    opcode.Expect(COpcode::O_SET_GLOBAL);
+    opcode.Expect(m_ifstream, COpcode::O_SET_GLOBAL);
 
     // Sections with variable sizes
-    uint32_t ullCurrentOffset = g_ifstream.tellg();
+    uint32_t ullCurrentOffset = m_ifstream.tellg();
 
     // Load globals
     m_GlobalVar.clear();
@@ -60,7 +69,7 @@ void CFalloutScript::Serialize()
 
     while(ullCurrentOffset < m_ProcTable.GetOffsetOfProcSection())
     {
-        opcode.Serialize();
+        opcode.Serialize(m_ifstream);
         ullCurrentOffset += opcode.GetSize();
         HeaderTail.push_back(opcode);
     }
@@ -210,11 +219,11 @@ void CFalloutScript::Serialize()
         uint32_t ulOffset = m_ProcTable[i].m_ulBodyOffset;
         uint32_t ulSize = m_ProcTable.GetSizeOfProc(i);
 
-        g_ifstream.seekg(ulOffset, std::ios_base::beg);
+        m_ifstream.seekg(ulOffset, std::ios_base::beg);
 
         while(ulOffset < m_ProcTable[i].m_ulBodyOffset + ulSize)
         {
-            node.m_Opcode.Serialize();
+            node.m_Opcode.Serialize(m_ifstream);
             node.m_ulOffset = ulOffset;
             m_ProcBodies[i].push_back(node);
             ulOffset += node.m_Opcode.GetSize();

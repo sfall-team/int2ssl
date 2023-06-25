@@ -11,6 +11,7 @@
 #define NAMESPACE_H
 
 // C++ standard includes
+#include <fstream>
 #include <vector>
 
 // int2ssl includes
@@ -25,14 +26,14 @@ public:
     virtual ~CNamespace();
 
 public:
-    virtual void Serialize();
+    virtual void Serialize(std::ifstream& ifstream);
 
 public:
     int32_t GetSize() const;
     std::string GetStringByIndex(int32_t nIndex) ;
     uint32_t GetOffsetByIndex(int32_t nIndex) ;
 
-    void Dump();
+    void Dump(std::ofstream& ofstream);
 
 public:
     std::string operator [] (uint32_t ulOffset) const;

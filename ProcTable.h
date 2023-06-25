@@ -11,6 +11,7 @@
 #define PROC_TABLE_H
 
 // C++ standard includes
+#include <fstream>
 #include <stdint.h>
 
 // int2ssl includes
@@ -25,9 +26,9 @@ public:
     virtual ~CProcDescriptor();
 
 public:
-    virtual void Serialize();
+    virtual void Serialize(std::ifstream& ifstream);
 
-    void Dump();
+    void Dump(std::ofstream& ofstream);
 
 public:
     CProcDescriptor& operator = (const CProcDescriptor& Item);
@@ -48,13 +49,13 @@ public:
     virtual ~CProcTable();
 
 public:
-    virtual void Serialize();
+    virtual void Serialize(std::ifstream& ifstream);
 
     uint32_t GetSize();
     uint32_t GetSizeOfProc(uint32_t nIndex);
     uint32_t GetOffsetOfProcSection();
 
-    void Dump();
+    void Dump(std::ofstream& ofstream);
 
 public:
     CProcDescriptor& operator [] (uint32_t nIndex);

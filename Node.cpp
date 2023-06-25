@@ -17,9 +17,6 @@
 
 // Third party includes
 
-extern std::ifstream g_ifstream;
-extern std::ofstream g_ofstream;
-
 CNode::CNode(Type type) :
     m_ulOffset(0),
     m_Type(type)
@@ -51,27 +48,27 @@ CNode& CNode::operator = (const CNode& node)
     return (*this);
 }
 
-void CNode::StoreTree(int nIndent, int nIndex)
+void CNode::StoreTree(std::ofstream& ofstream, int nIndent, int nIndex)
 {
     // Indent
     if (nIndex != 0)
     {
-        g_ofstream << "            ";
+        ofstream << "            ";
 
         for(int i = 0; i < nIndent; i++)
         {
-            g_ofstream << "                  ";
+            ofstream << "                  ";
         }
     }
 
     switch(m_Type)
     {
         case TYPE_BEGIN_OF_BLOCK:
-            g_ofstream << "========= begin of block =========" << std::endl;
+            ofstream << "========= begin of block =========" << std::endl;
             return;
 
         case TYPE_END_OF_BLOCK:
-            g_ofstream << "========= end of block =========" << std::endl;
+            ofstream << "========= end of block =========" << std::endl;
             return;
 
         default:
@@ -87,31 +84,31 @@ void CNode::StoreTree(int nIndent, int nIndex)
     {
         case COpcode::O_STRINGOP:
         case COpcode::O_INTOP:
-            g_ofstream << format("0x%04X 0x%08x ",
+            ofstream << format("0x%04X 0x%08x ",
                               wOperator,
                               ulArgument) << std::endl;
             break;
 
         case COpcode::O_FLOATOP:
-            g_ofstream << format("0x%04X 0x%08X ",
+            ofstream << format("0x%04X 0x%08X ",
                                 wOperator,
                                 ulArgument) << std::endl;
             break;
 
         default:
-            g_ofstream << format("0x%04X .......... ", wOperator) << std::endl;
+            ofstream << format("0x%04X .......... ", wOperator) << std::endl;
             break;
     }
     if (!m_Arguments.empty())
     {
         for(uint32_t i = 0; i < m_Arguments.size(); i++)
         {
-            m_Arguments[i].StoreTree(nIndent + 1, i);
+            m_Arguments[i].StoreTree(ofstream, nIndent + 1, i);
         }
     }
     else
     {
-        g_ofstream << std::endl;
+        ofstream << std::endl;
     }
 
 }

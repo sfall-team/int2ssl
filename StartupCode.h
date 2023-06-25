@@ -11,6 +11,7 @@
 #define STARTUP_CODE_H
 
 // C++ standard includes
+#include <fstream>
 
 // int2ssl includes
 #include "Opcode.h"
@@ -27,7 +28,7 @@ public:
 
     CStartupCode();
     virtual ~CStartupCode();
-    virtual void Serialize();
+    virtual void Serialize(std::ifstream& ifstream);
 
 private:
     COpcode m_Code[17];

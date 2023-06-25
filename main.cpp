@@ -26,8 +26,8 @@ std::string  g_strIndentFill("\t");
 bool g_bIgnoreWrongNumOfArgs = false;
 bool g_bInsOmittedArgsBackward = false;
 bool g_bStopOnError = false;
-std::ifstream g_ifstream;
-std::ofstream g_ofstream;
+std::ifstream l_ifstream;
+std::ofstream l_ofstream;
 
 
 std::string g_inputFileName;
@@ -54,8 +54,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    g_ifstream.open(g_inputFileName.c_str(), std::fstream::in | std::fstream::binary);
-    if (!g_ifstream.is_open())
+    l_ifstream.open(g_inputFileName.c_str(), std::fstream::in | std::fstream::binary);
+    if (!l_ifstream.is_open())
     {
         std::cout << "Error: Unable open input file: " << g_inputFileName << std::endl;
         if (g_bStopOnError == true)
@@ -66,8 +66,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    g_ofstream.open(g_outputFileName.c_str(), std::fstream::out | std::fstream::trunc);
-    if (!g_ofstream.is_open())
+    l_ofstream.open(g_outputFileName.c_str(), std::fstream::out | std::fstream::trunc);
+    if (!l_ofstream.is_open())
     {
         std::cout << "Error: Unable open output file: " << g_outputFileName << std::endl;
         if (g_bStopOnError == true)
@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 
     try
     {
-        CFalloutScript Script;
+        CFalloutScript Script(l_ifstream, l_ofstream);
 
         std::cout << format("Loading file %s...", g_inputFileName) << std::endl;
         Script.Serialize();

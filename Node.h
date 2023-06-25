@@ -17,6 +17,7 @@
 #include "Opcode.h"
 
 // Third party includes
+#include <fstream>
 
 class CNode;
 typedef std::vector<CNode> CNodeArray;
@@ -45,7 +46,7 @@ public:
     CNode& operator = (const CNode& node);
 
 public:
-    void StoreTree(int nIndent, int nIndex);
+    void StoreTree(std::ofstream& ofstream, int nIndent, int nIndex);
     uint32_t  GetTopOffset();
     bool IsExpression() const;
     bool IsInfix() const;

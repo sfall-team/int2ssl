@@ -17,37 +17,34 @@
 
 // Third party includes
 
-extern std::ifstream g_ifstream;
-extern std::ofstream g_ofstream;
-
 void CFalloutScript::Dump()
 {
-    g_ofstream << "============== Procedures table ==================" << std::endl
+    m_ofstream << "============== Procedures table ==================" << std::endl
                << std::endl;
-    m_ProcTable.Dump();
-    g_ofstream << std::endl;
-    g_ofstream << std::endl;
+    m_ProcTable.Dump(m_ofstream);
+    m_ofstream << std::endl;
+    m_ofstream << std::endl;
 
-    g_ofstream << "============== Namespace ==================" << std::endl;
-    m_Namespace.Dump();
-    g_ofstream << std::endl;
-    g_ofstream << std::endl;
+    m_ofstream << "============== Namespace ==================" << std::endl;
+    m_Namespace.Dump(m_ofstream);
+    m_ofstream << std::endl;
+    m_ofstream << std::endl;
 
-    g_ofstream << "============== Stringspace ==================" << std::endl;
-    m_Stringspace.Dump();
-    g_ofstream << std::endl;
-    g_ofstream << std::endl;
+    m_ofstream << "============== Stringspace ==================" << std::endl;
+    m_Stringspace.Dump(m_ofstream);
+    m_ofstream << std::endl;
+    m_ofstream << std::endl;
 
 
     std::string strOutLine;
     uint16_t wOperator;
     uint32_t ulArgument = 0;
 
-    g_ofstream << "============== Global variables values ==================" << std::endl;
+    m_ofstream << "============== Global variables values ==================" << std::endl;
 
     if (m_GlobalVar.empty())
     {
-        g_ofstream << "Not found" << std::endl;
+        m_ofstream << "Not found" << std::endl;
     }
     else
     {
@@ -60,7 +57,7 @@ void CFalloutScript::Dump()
             {
                 case COpcode::O_STRINGOP:
                 case COpcode::O_INTOP:
-                    g_ofstream <<  format("%d: %s(0x%08x)   // %u (%d)",
+                    m_ofstream <<  format("%d: %s(0x%08x)   // %u (%d)",
                                     i,
                                     m_GlobalVar[i].GetAttributes().m_strMnemonic.c_str(),
                                     ulArgument,
@@ -69,7 +66,7 @@ void CFalloutScript::Dump()
                     break;
 
                 case COpcode::O_FLOATOP:
-                    g_ofstream << format("%d: %s(0x%08x)   // %05f",
+                    m_ofstream << format("%d: %s(0x%08x)   // %05f",
                                     i,
                                     m_GlobalVar[i].GetAttributes().m_strMnemonic.c_str(),
                                     ulArgument,
@@ -78,14 +75,14 @@ void CFalloutScript::Dump()
         }
     }
 
-    g_ofstream << std::endl;
-    g_ofstream << std::endl;
+    m_ofstream << std::endl;
+    m_ofstream << std::endl;
 
-    g_ofstream << "============== Exported variables ==================" << std::endl;
+    m_ofstream << "============== Exported variables ==================" << std::endl;
 
     if (m_ExportedVarValue.empty())
     {
-        g_ofstream << "Not found" << std::endl;
+        m_ofstream << "Not found" << std::endl;
     }
     else
     {
@@ -98,38 +95,38 @@ void CFalloutScript::Dump()
             switch(wOperator)
             {
                 case COpcode::O_STRINGOP:
-                    g_ofstream << format("%s := \"%s\"",
+                    m_ofstream << format("%s := \"%s\"",
                                     m_Namespace[ulNameArgument].c_str(),
                                     m_Stringspace[ulArgument].c_str()) << std::endl;
                     break;
 
                 case COpcode::O_INTOP:
-                    g_ofstream << format("%s := %u (%d)",
+                    m_ofstream << format("%s := %u (%d)",
                                     m_Namespace[ulNameArgument].c_str(),
                                     ulArgument,
                                     ulArgument) << std::endl;
                     break;
 
                 case COpcode::O_FLOATOP:
-                    g_ofstream << format("%s := %05f",
+                    m_ofstream << format("%s := %05f",
                                     m_Namespace[ulNameArgument].c_str(),
                                     *((float*)(&ulArgument))) << std::endl;
             }
         }
     }
 
-    g_ofstream << std::endl;
-    g_ofstream << std::endl;
+    m_ofstream << std::endl;
+    m_ofstream << std::endl;
 
-    g_ofstream << "============== Procedures ==================" << std::endl;
-    g_ofstream << std::endl;
+    m_ofstream << "============== Procedures ==================" << std::endl;
+    m_ofstream << std::endl;
 
     for(uint32_t nIndexOfProc = 0; nIndexOfProc < m_ProcTable.GetSize(); nIndexOfProc++)
     {
-        g_ofstream << format("%d: %s (0x%08x)", nIndexOfProc,
+        m_ofstream << format("%d: %s (0x%08x)", nIndexOfProc,
                                                m_Namespace[m_ProcTable[nIndexOfProc].m_ulNameOffset].c_str(),
                                                m_ProcTable[nIndexOfProc].m_ulBodyOffset) << std::endl;
-        g_ofstream << "===============================" << std::endl;
+        m_ofstream << "===============================" << std::endl;
 
         for(uint32_t i = 0; i < m_ProcBodies[nIndexOfProc].size(); i++)
         {
@@ -140,7 +137,7 @@ void CFalloutScript::Dump()
             {
                 case COpcode::O_STRINGOP:
                 case COpcode::O_INTOP:
-                    g_ofstream << format("0x%08X: 0x%04X 0x%08x - %s(0x%08x)   // %u (%d)",
+                    m_ofstream << format("0x%08X: 0x%04X 0x%08x - %s(0x%08x)   // %u (%d)",
                                       m_ProcBodies[nIndexOfProc][i].m_ulOffset,
                                       wOperator,
                                       ulArgument,
@@ -151,7 +148,7 @@ void CFalloutScript::Dump()
                     break;
 
                 case COpcode::O_FLOATOP:
-                    g_ofstream << format("0x%08X: 0x%04X 0x%08X - %s // %05f",
+                    m_ofstream << format("0x%08X: 0x%04X 0x%08X - %s // %05f",
                                       m_ProcBodies[nIndexOfProc][i].m_ulOffset,
                                       wOperator,
                                       ulArgument,
@@ -160,13 +157,13 @@ void CFalloutScript::Dump()
                     break;
 
                 default:
-                    g_ofstream << format("0x%08X: 0x%04X            - %s",
+                    m_ofstream << format("0x%08X: 0x%04X            - %s",
                                       m_ProcBodies[nIndexOfProc][i].m_ulOffset,
                                       wOperator, 
                                       m_ProcBodies[nIndexOfProc][i].m_Opcode.GetAttributes().m_strMnemonic.c_str()) << std::endl;
             }
         }
 
-        g_ofstream << std::endl;
+        m_ofstream << std::endl;
     }
 }

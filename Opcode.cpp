@@ -19,7 +19,6 @@
 // Third party includes
 
 extern int g_nFalloutVersion;
-extern std::ifstream g_ifstream;
 
 COpcode::COpcode() :
     m_wOperator(O_NOOP),
@@ -46,12 +45,12 @@ COpcode& COpcode::operator = (const COpcode& opcode)
     return (*this);
 }
 
-void COpcode::Serialize()
+void COpcode::Serialize(std::ifstream& ifstream)
 {
-    g_ifstream.read((char*)&m_wOperator, sizeof(m_wOperator));
+    ifstream.read((char*)&m_wOperator, sizeof(m_wOperator));
     std::reverse((char*)&m_wOperator, (char*)&m_wOperator + sizeof(m_wOperator));
 
-    if (!g_ifstream)
+    if (!ifstream)
     {
         printf("Error: Unable read opcode\n");
         throw std::exception();
@@ -65,16 +64,16 @@ void COpcode::Serialize()
          (m_wOperator != O_FLOATOP)&&
          (m_wOperator != O_INTOP)))
     {
-        printf("Error: Invalid opcode at 0x%08x\n", (uint32_t)g_ifstream.tellg() - 2);
+        printf("Error: Invalid opcode at 0x%08x\n", (uint32_t)ifstream.tellg() - 2);
         throw std::exception();
     }
 
     if ((m_wOperator == O_STRINGOP) || (m_wOperator == O_FLOATOP) || (m_wOperator == O_INTOP))
     {
-        g_ifstream.read((char*)&m_ulArgument, sizeof(m_ulArgument));
+        ifstream.read((char*)&m_ulArgument, sizeof(m_ulArgument));
         std::reverse((char*)&m_ulArgument, (char*)&m_ulArgument + sizeof(m_ulArgument));
 
-        if (!g_ifstream)
+        if (!ifstream)
         {
             std::cout << "Error: Unable read opcode argument" << std::endl;
             throw std::exception();
@@ -82,9 +81,9 @@ void COpcode::Serialize()
     }
 }
 
-void COpcode::Expect(uint16_t wOperator, bool bArgumentFound, uint32_t ulArgument)
+void COpcode::Expect(std::ifstream& ifstream, uint16_t wOperator, bool bArgumentFound, uint32_t ulArgument)
 {
-    Serialize();
+    Serialize(ifstream);
 
     if (m_wOperator != wOperator)
     {
@@ -102,9 +101,9 @@ void COpcode::Expect(uint16_t wOperator, bool bArgumentFound, uint32_t ulArgumen
     }
 }
 
-void COpcode::Expect(int nCount, uint16_t pwOperators[])
+void COpcode::Expect(std::ifstream& ifstream, int nCount, uint16_t pwOperators[])
 {
-    Serialize();
+    Serialize(ifstream);
     bool bFound = false;
 
     for(int i = 0; i < nCount; i++)

@@ -22,7 +22,7 @@ CStartupCode::~CStartupCode()
 {
 }
 
-void CStartupCode::Serialize()
+void CStartupCode::Serialize(std::ifstream& ifstream)
 {
     uint16_t wExpectOpcodes[17] = {
         COpcode::O_CRITICAL_START,
@@ -48,11 +48,11 @@ void CStartupCode::Serialize()
     {
         if (i == 1)
         {
-            m_Code[i].Expect(wExpectOpcodes[i], true, 18);
+            m_Code[i].Expect(ifstream, wExpectOpcodes[i], true, 18);
         }
         else
         {
-            m_Code[i].Expect(wExpectOpcodes[i]);
+            m_Code[i].Expect(ifstream, wExpectOpcodes[i]);
         }
     }
 }

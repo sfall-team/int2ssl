@@ -11,6 +11,7 @@
 #define FALLOUT_SCRIPT_H
 
 // C++ standard includes
+#include <fstream>
 #include <vector>
 
 // int2ssl includes
@@ -24,7 +25,7 @@
 class CFalloutScript
 {
 public:
-    CFalloutScript();
+    CFalloutScript(std::ifstream& ifstream, std::ofstream& ofstream);
     virtual ~CFalloutScript();
 
 public:
@@ -108,6 +109,9 @@ private:
 private:
     // CMapuint32_tToDefObject
     typedef CMap<uint32_t, uint32_t, CDefObject, CDefObject&> CMapuint32_tToDefObject;
+
+    std::ifstream& m_ifstream;
+    std::ofstream& m_ofstream;
 
     CStartupCode m_StartupCode;
     CProcTable   m_ProcTable;
