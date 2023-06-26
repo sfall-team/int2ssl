@@ -11,10 +11,10 @@
 #define NAMESPACE_H
 
 // C++ standard includes
-#include <fstream>
 #include <vector>
 
 // int2ssl includes
+#include "FalloutScriptData.h"
 #include "Hacks/CMap.h"
 
 // Third party includes
@@ -26,14 +26,14 @@ public:
     virtual ~CNamespace();
 
 public:
-    virtual void Serialize(std::ifstream& ifstream);
+    virtual void Serialize(CFalloutScriptData& scriptData);
 
 public:
     int32_t GetSize() const;
     std::string GetStringByIndex(int32_t nIndex) ;
     uint32_t GetOffsetByIndex(int32_t nIndex) ;
 
-    void Dump(std::ofstream& ofstream);
+    void Dump(CFalloutScriptData& scriptData);
 
 public:
     std::string operator [] (uint32_t ulOffset) const;

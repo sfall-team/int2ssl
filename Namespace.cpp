@@ -27,16 +27,16 @@ CNamespace::~CNamespace()
 {
 }
 
-void CNamespace::Serialize(std::ifstream& ifstream)
+void CNamespace::Serialize(CFalloutScriptData& scriptData)
 {
     m_Map.RemoveAll();
     m_Order.clear();
 
     uint32_t ulLength;
-    ifstream.read((char*)&ulLength, sizeof(ulLength));
+    scriptData.inputStream.read((char*)&ulLength, sizeof(ulLength));
     std::reverse((char*)&ulLength, (char*)&ulLength + sizeof(ulLength));
 
-    if (!ifstream)
+    if (!scriptData.inputStream)
     {
         std::cout << "Error: Unable read length of namespace" << std::endl;
         throw std::exception();
@@ -52,10 +52,10 @@ void CNamespace::Serialize(std::ifstream& ifstream)
     {
         std::string strNewString;
 
-        ifstream.read((char*)&wLengthOfString, sizeof(wLengthOfString));
+        scriptData.inputStream.read((char*)&wLengthOfString, sizeof(wLengthOfString));
         std::reverse((char*)&wLengthOfString, (char*)&wLengthOfString + sizeof(wLengthOfString));
 
-        if (!ifstream)
+        if (!scriptData.inputStream)
         {
             std::cout << "Error: Unable read length of string" << std::endl;
             throw std::exception();
@@ -70,8 +70,8 @@ void CNamespace::Serialize(std::ifstream& ifstream)
         strNewString.resize(wLengthOfString);
         lpszNewString = (char*)strNewString.data();
 
-        ifstream.read(lpszNewString, wLengthOfString);
-        if (!ifstream)
+        scriptData.inputStream.read(lpszNewString, wLengthOfString);
+        if (!scriptData.inputStream)
         {
             strNewString.resize(0);
             std::cout << "Error: Unable read string in namespace" << std::endl;
@@ -105,10 +105,10 @@ void CNamespace::Serialize(std::ifstream& ifstream)
 
     uint32_t ulTerminator;
 
-    ifstream.read((char*)&ulTerminator, sizeof(ulTerminator));
+    scriptData.inputStream.read((char*)&ulTerminator, sizeof(ulTerminator));
     std::reverse((char*)&ulTerminator, (char*)&ulTerminator + sizeof(ulTerminator));
 
-    if (!ifstream)
+    if (!scriptData.inputStream)
     {
         std::cout << "Error: Unable read terminator of namespace" << std::endl;
         throw std::exception();
@@ -143,21 +143,21 @@ uint32_t CNamespace::GetOffsetByIndex(int32_t nIndex)
     return m_Order[nIndex];
 }
 
-void CNamespace::Dump(std::ofstream& ofstream)
+void CNamespace::Dump(CFalloutScriptData& scriptData)
 {
     if (m_Order.empty())
     {
-        ofstream << "Empty" << std::endl;
+        scriptData.outputStream << "Empty" << std::endl;
     }
     else
     {
         for(unsigned int i = 0; i < m_Order.size(); i++)
         {
-            ofstream << format("0x%08X: \"%s\"", m_Order[i], GetStringByIndex(i).c_str()) << std::endl;
+            scriptData.outputStream << format("0x%08X: \"%s\"", m_Order[i], GetStringByIndex(i).c_str()) << std::endl;
         }
 
-        ofstream << "==================" << std::endl;
-        ofstream << format("%d item(s)\n", m_Order.size()) << std::endl;
+        scriptData.outputStream << "==================" << std::endl;
+        scriptData.outputStream << format("%d item(s)\n", m_Order.size()) << std::endl;
     }
 }
 

@@ -61,30 +61,30 @@ CProcDescriptor& CProcDescriptor::operator = (const CProcDescriptor& Item)
     return (*this);
 }
 
-void CProcDescriptor::Serialize(std::ifstream& ifstream)
+void CProcDescriptor::Serialize(CFalloutScriptData& scriptData)
 {
 
-    ifstream.read((char*)&m_ulNameOffset, sizeof(m_ulNameOffset));
+    scriptData.inputStream.read((char*)&m_ulNameOffset, sizeof(m_ulNameOffset));
     std::reverse((char*)&m_ulNameOffset, (char*)&m_ulNameOffset + sizeof(m_ulNameOffset));
-    ifstream.read((char*)&m_ulType, sizeof(m_ulType));
+    scriptData.inputStream.read((char*)&m_ulType, sizeof(m_ulType));
     std::reverse((char*)&m_ulType, (char*)&m_ulType + sizeof(m_ulType));
-    ifstream.read((char*)&m_ulTime, sizeof(m_ulTime));
+    scriptData.inputStream.read((char*)&m_ulTime, sizeof(m_ulTime));
     std::reverse((char*)&m_ulTime, (char*)&m_ulTime + sizeof(m_ulTime));
-    ifstream.read((char*)&m_ulExpressionOffset, sizeof(m_ulExpressionOffset));
+    scriptData.inputStream.read((char*)&m_ulExpressionOffset, sizeof(m_ulExpressionOffset));
     std::reverse((char*)&m_ulExpressionOffset, (char*)&m_ulExpressionOffset + sizeof(m_ulExpressionOffset));
-    ifstream.read((char*)&m_ulBodyOffset, sizeof(m_ulBodyOffset));
+    scriptData.inputStream.read((char*)&m_ulBodyOffset, sizeof(m_ulBodyOffset));
     std::reverse((char*)&m_ulBodyOffset, (char*)&m_ulBodyOffset + sizeof(m_ulBodyOffset));
-    ifstream.read((char*)&m_ulNumArgs, sizeof(m_ulNumArgs));
+    scriptData.inputStream.read((char*)&m_ulNumArgs, sizeof(m_ulNumArgs));
     std::reverse((char*)&m_ulNumArgs, (char*)&m_ulNumArgs + sizeof(m_ulNumArgs));
 
-    if (!ifstream)
+    if (!scriptData.inputStream)
     {
         std::cout << "Error: Unable read procedure descriptor" << std::endl;
         throw std::exception();
     }
 }
 
-void CProcDescriptor::Dump(std::ofstream& ofstream)
+void CProcDescriptor::Dump(CFalloutScriptData& scriptData)
 {
     std::string strType;
 
@@ -122,12 +122,12 @@ void CProcDescriptor::Dump(std::ofstream& ofstream)
         strType = "No special types";
     }
 
-    ofstream << format("Name offset:       0x%08X", m_ulNameOffset) << std::endl;
-    ofstream << format("Type:              0x%08X  // %s", m_ulType, strType.c_str()) << std::endl;
-    ofstream << format("Time:              0x%08X  // %d", m_ulTime, m_ulTime) << std::endl;
-    ofstream << format("Expression offset: 0x%08X", m_ulExpressionOffset) << std::endl;
-    ofstream << format("Body offset:       0x%08X", m_ulBodyOffset) << std::endl;
-    ofstream << format("Number of args:    0x%08X  // %d", m_ulNumArgs, m_ulNumArgs) << std::endl;
+    scriptData.outputStream << format("Name offset:       0x%08X", m_ulNameOffset) << std::endl;
+    scriptData.outputStream << format("Type:              0x%08X  // %s", m_ulType, strType.c_str()) << std::endl;
+    scriptData.outputStream << format("Time:              0x%08X  // %d", m_ulTime, m_ulTime) << std::endl;
+    scriptData.outputStream << format("Expression offset: 0x%08X", m_ulExpressionOffset) << std::endl;
+    scriptData.outputStream << format("Body offset:       0x%08X", m_ulBodyOffset) << std::endl;
+    scriptData.outputStream << format("Number of args:    0x%08X  // %d", m_ulNumArgs, m_ulNumArgs) << std::endl;
 }
 
 
@@ -174,22 +174,22 @@ int compareProcBodyOffsets(const void* elem0, const void* elem1)
     }
 }
 
-void CProcTable::Serialize(std::ifstream& ifstream)
+void CProcTable::Serialize(CFalloutScriptData& scriptData)
 {
     m_Table.clear();
     m_ProcSize.clear();
 
-    uint32_t oldPosition = ifstream.tellg();
-    ifstream.seekg(0, std::ios_base::end);
+    uint32_t oldPosition = scriptData.inputStream.tellg();
+    scriptData.inputStream.seekg(0, std::ios_base::end);
 
-    uint32_t ulSizeOfFile = ifstream.tellg();
-    ifstream.seekg(oldPosition, std::ios_base::beg);
+    uint32_t ulSizeOfFile = scriptData.inputStream.tellg();
+    scriptData.inputStream.seekg(oldPosition, std::ios_base::beg);
 
     uint32_t ulSizeOfTable;
-    ifstream.read((char*)&ulSizeOfTable, sizeof(ulSizeOfTable));
+    scriptData.inputStream.read((char*)&ulSizeOfTable, sizeof(ulSizeOfTable));
     std::reverse((char*)&ulSizeOfTable, (char*)&ulSizeOfTable + sizeof(ulSizeOfTable));
 
-    if (!ifstream)
+    if (!scriptData.inputStream)
     {
         printf("Error: Unable read size of procedures table\n");
         throw std::exception();
@@ -209,7 +209,7 @@ void CProcTable::Serialize(std::ifstream& ifstream)
     for(uint32_t i = 0; i < ulSizeOfTable; i++)
     {
 //      printf("======== %u =========\n", i);
-        m_Table[i].Serialize(ifstream);
+        m_Table[i].Serialize(scriptData);
         m_ProcSize[i] = 0;       // Initialize size of procedure
 
         if (!(m_Table[i].m_ulType & P_IMPORT))
@@ -290,13 +290,13 @@ uint32_t CProcTable::GetOffsetOfProcSection()
 }
 
 
-void CProcTable::Dump(std::ofstream& ofstream)
+void CProcTable::Dump(CFalloutScriptData& scriptData)
 {
     for(unsigned int i = 0; i < m_Table.size(); i++)
     {
-        ofstream << format("======== Procedure %d ========", i) << std::endl;
-        m_Table[i].Dump(ofstream);
-        ofstream << std::endl;
+        scriptData.outputStream << format("======== Procedure %d ========", i) << std::endl;
+        m_Table[i].Dump(scriptData);
+        scriptData.outputStream << std::endl;
     }
 }
 

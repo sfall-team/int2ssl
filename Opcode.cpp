@@ -45,12 +45,12 @@ COpcode& COpcode::operator = (const COpcode& opcode)
     return (*this);
 }
 
-void COpcode::Serialize(std::ifstream& ifstream)
+void COpcode::Serialize(CFalloutScriptData& scriptData)
 {
-    ifstream.read((char*)&m_wOperator, sizeof(m_wOperator));
+    scriptData.inputStream.read((char*)&m_wOperator, sizeof(m_wOperator));
     std::reverse((char*)&m_wOperator, (char*)&m_wOperator + sizeof(m_wOperator));
 
-    if (!ifstream)
+    if (!scriptData.inputStream)
     {
         printf("Error: Unable read opcode\n");
         throw std::exception();
@@ -64,16 +64,16 @@ void COpcode::Serialize(std::ifstream& ifstream)
          (m_wOperator != O_FLOATOP)&&
          (m_wOperator != O_INTOP)))
     {
-        printf("Error: Invalid opcode at 0x%08x\n", (uint32_t)ifstream.tellg() - 2);
+        printf("Error: Invalid opcode at 0x%08x\n", (uint32_t)scriptData.inputStream.tellg() - 2);
         throw std::exception();
     }
 
     if ((m_wOperator == O_STRINGOP) || (m_wOperator == O_FLOATOP) || (m_wOperator == O_INTOP))
     {
-        ifstream.read((char*)&m_ulArgument, sizeof(m_ulArgument));
+        scriptData.inputStream.read((char*)&m_ulArgument, sizeof(m_ulArgument));
         std::reverse((char*)&m_ulArgument, (char*)&m_ulArgument + sizeof(m_ulArgument));
 
-        if (!ifstream)
+        if (!scriptData.inputStream)
         {
             std::cout << "Error: Unable read opcode argument" << std::endl;
             throw std::exception();
@@ -81,9 +81,9 @@ void COpcode::Serialize(std::ifstream& ifstream)
     }
 }
 
-void COpcode::Expect(std::ifstream& ifstream, uint16_t wOperator, bool bArgumentFound, uint32_t ulArgument)
+void COpcode::Expect(CFalloutScriptData& scriptData, uint16_t wOperator, bool bArgumentFound, uint32_t ulArgument)
 {
-    Serialize(ifstream);
+    Serialize(scriptData);
 
     if (m_wOperator != wOperator)
     {
@@ -101,9 +101,9 @@ void COpcode::Expect(std::ifstream& ifstream, uint16_t wOperator, bool bArgument
     }
 }
 
-void COpcode::Expect(std::ifstream& ifstream, int nCount, uint16_t pwOperators[])
+void COpcode::Expect(CFalloutScriptData& scriptData, int nCount, uint16_t pwOperators[])
 {
-    Serialize(ifstream);
+    Serialize(scriptData);
     bool bFound = false;
 
     for(int i = 0; i < nCount; i++)

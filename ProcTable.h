@@ -11,10 +11,10 @@
 #define PROC_TABLE_H
 
 // C++ standard includes
-#include <fstream>
 #include <stdint.h>
 
 // int2ssl includes
+#include "FalloutScriptData.h"
 
 // Third party includes
 
@@ -26,9 +26,9 @@ public:
     virtual ~CProcDescriptor();
 
 public:
-    virtual void Serialize(std::ifstream& ifstream);
+    virtual void Serialize(CFalloutScriptData& scriptData);
 
-    void Dump(std::ofstream& ofstream);
+    void Dump(CFalloutScriptData& scriptData);
 
 public:
     CProcDescriptor& operator = (const CProcDescriptor& Item);
@@ -49,13 +49,13 @@ public:
     virtual ~CProcTable();
 
 public:
-    virtual void Serialize(std::ifstream& ifstream);
+    virtual void Serialize(CFalloutScriptData& scriptData);
 
     uint32_t GetSize();
     uint32_t GetSizeOfProc(uint32_t nIndex);
     uint32_t GetOffsetOfProcSection();
 
-    void Dump(std::ofstream& ofstream);
+    void Dump(CFalloutScriptData& scriptData);
 
 public:
     CProcDescriptor& operator [] (uint32_t nIndex);

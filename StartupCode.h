@@ -11,9 +11,9 @@
 #define STARTUP_CODE_H
 
 // C++ standard includes
-#include <fstream>
 
 // int2ssl includes
+#include "FalloutScriptData.h"
 #include "Opcode.h"
 
 // Third party includes
@@ -28,7 +28,7 @@ public:
 
     CStartupCode();
     virtual ~CStartupCode();
-    virtual void Serialize(std::ifstream& ifstream);
+    virtual void Serialize(CFalloutScriptData& scriptData);
 
 private:
     COpcode m_Code[17];

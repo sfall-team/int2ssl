@@ -48,27 +48,27 @@ CNode& CNode::operator = (const CNode& node)
     return (*this);
 }
 
-void CNode::StoreTree(std::ofstream& ofstream, int nIndent, int nIndex)
+void CNode::StoreTree(CFalloutScriptData& scriptData, int nIndent, int nIndex)
 {
     // Indent
     if (nIndex != 0)
     {
-        ofstream << "            ";
+        scriptData.outputStream << "            ";
 
         for(int i = 0; i < nIndent; i++)
         {
-            ofstream << "                  ";
+            scriptData.outputStream << "                  ";
         }
     }
 
     switch(m_Type)
     {
         case TYPE_BEGIN_OF_BLOCK:
-            ofstream << "========= begin of block =========" << std::endl;
+            scriptData.outputStream << "========= begin of block =========" << std::endl;
             return;
 
         case TYPE_END_OF_BLOCK:
-            ofstream << "========= end of block =========" << std::endl;
+            scriptData.outputStream << "========= end of block =========" << std::endl;
             return;
 
         default:
@@ -84,31 +84,31 @@ void CNode::StoreTree(std::ofstream& ofstream, int nIndent, int nIndex)
     {
         case COpcode::O_STRINGOP:
         case COpcode::O_INTOP:
-            ofstream << format("0x%04X 0x%08x ",
+            scriptData.outputStream << format("0x%04X 0x%08x ",
                               wOperator,
                               ulArgument) << std::endl;
             break;
 
         case COpcode::O_FLOATOP:
-            ofstream << format("0x%04X 0x%08X ",
+            scriptData.outputStream << format("0x%04X 0x%08X ",
                                 wOperator,
                                 ulArgument) << std::endl;
             break;
 
         default:
-            ofstream << format("0x%04X .......... ", wOperator) << std::endl;
+            scriptData.outputStream << format("0x%04X .......... ", wOperator) << std::endl;
             break;
     }
     if (!m_Arguments.empty())
     {
         for(uint32_t i = 0; i < m_Arguments.size(); i++)
         {
-            m_Arguments[i].StoreTree(ofstream, nIndent + 1, i);
+            m_Arguments[i].StoreTree(scriptData, nIndent + 1, i);
         }
     }
     else
     {
-        ofstream << std::endl;
+        scriptData.outputStream << std::endl;
     }
 
 }

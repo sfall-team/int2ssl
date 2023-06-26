@@ -24,37 +24,37 @@ void CFalloutScript::StoreTree()
 {
     std::string strOutLine;
 
-    m_ofstream << "============== Procedures ==================" << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << "============== Procedures ==================" << std::endl;
+    scriptData.outputStream << std::endl;
 
     for(uint32_t nIndexOfProc = 0; nIndexOfProc < m_ProcTable.GetSize(); nIndexOfProc++)
     {
-        m_ofstream << format("%d: %s (0x%08x)", nIndexOfProc, m_Namespace[m_ProcTable[nIndexOfProc].m_ulNameOffset].c_str(), m_ProcTable[nIndexOfProc].m_ulBodyOffset) << std::endl;
-        m_ofstream << "===============================" << std::endl;
+        scriptData.outputStream << format("%d: %s (0x%08x)", nIndexOfProc, m_Namespace[m_ProcTable[nIndexOfProc].m_ulNameOffset].c_str(), m_ProcTable[nIndexOfProc].m_ulBodyOffset) << std::endl;
+        scriptData.outputStream << "===============================" << std::endl;
 
         if (m_ProcTable[nIndexOfProc].m_ulType & P_CONDITIONAL)
         {
-            m_ofstream << "Condition" << std::endl;
-            m_ofstream << "===============================" << std::endl;
+            scriptData.outputStream << "Condition" << std::endl;
+            scriptData.outputStream << "===============================" << std::endl;
 
             for(uint32_t i = 0; i < m_Conditions[nIndexOfProc].size(); i++)
             {
-                m_ofstream << format("0x%08X: ", m_Conditions[nIndexOfProc][i].m_ulOffset) << std::endl;
-                m_Conditions[nIndexOfProc][i].StoreTree(m_ofstream, 0, 0);
+                scriptData.outputStream << format("0x%08X: ", m_Conditions[nIndexOfProc][i].m_ulOffset) << std::endl;
+                m_Conditions[nIndexOfProc][i].StoreTree(scriptData, 0, 0);
             }
 
-            m_ofstream << std::endl;
-            m_ofstream << "Body" << std::endl;
-            m_ofstream << "===============================" << std::endl;
+            scriptData.outputStream << std::endl;
+            scriptData.outputStream << "Body" << std::endl;
+            scriptData.outputStream << "===============================" << std::endl;
         }
 
         for(uint32_t i = 0; i < m_ProcBodies[nIndexOfProc].size(); i++)
         {
-            m_ofstream << format("0x%08X: ", m_ProcBodies[nIndexOfProc][i].m_ulOffset) << std::endl;
-            m_ProcBodies[nIndexOfProc][i].StoreTree(m_ofstream, 0, 0);
+            scriptData.outputStream << format("0x%08X: ", m_ProcBodies[nIndexOfProc][i].m_ulOffset) << std::endl;
+            m_ProcBodies[nIndexOfProc][i].StoreTree(scriptData, 0, 0);
         }
 
-        m_ofstream << std::endl;
+        scriptData.outputStream << std::endl;
     }
 
 }
@@ -62,8 +62,8 @@ void CFalloutScript::StoreTree()
 void CFalloutScript::StoreSource()
 {
     StoreDefinitions();
-    m_ofstream << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << std::endl;
+    scriptData.outputStream << std::endl;
     StoreDeclarations();
 }
 
@@ -82,7 +82,7 @@ void CFalloutScript::StoreDefinitions()
 
     if (nNamesCount != nDefinitionsCount)
     {
-        m_ofstream << "/*******************************************************" << std::endl
+        scriptData.outputStream << "/*******************************************************" << std::endl
                    << "*      Some unreferenced imported varables found.      *" << std::endl
                    << "*      Because of it it is impossible to specify       *" << std::endl
                    << "*      the real names of global variables.             *" << std::endl
@@ -120,10 +120,10 @@ void CFalloutScript::StoreDefinitions()
                 strDefinition = format(strDefinition + " /* (%d) */", ulVarValue);
             }
 
-            m_ofstream << strDefinition << std::endl;
+            scriptData.outputStream << strDefinition << std::endl;
         }
 
-        m_ofstream << std::endl;
+        scriptData.outputStream << std::endl;
     }
 
 
@@ -272,11 +272,11 @@ void CFalloutScript::StoreDefinitions()
 
         if ((currentOut != lastOut) && (lastOut != OUT_NOTHING))
         {
-            m_ofstream << std::endl;
+            scriptData.outputStream << std::endl;
         }
 
         lastOut = currentOut;
-        m_ofstream << strDefinition << std::endl;
+        scriptData.outputStream << strDefinition << std::endl;
     }
 }
 
@@ -303,7 +303,7 @@ void CFalloutScript::StoreDeclarations()
         // Empty procedure
         if (m_ProcTable.GetSizeOfProc(i) == 0)
         {
-            m_ofstream << "/*******************************************************" << std::endl
+            scriptData.outputStream << "/*******************************************************" << std::endl
                        << "*    Found Procedure without body.                     *" << std::endl
                        << "*                                                      *" << std::endl;
             strOutLine = "*    Name: ";
@@ -315,12 +315,12 @@ void CFalloutScript::StoreDeclarations()
             }
 
             strOutLine += "*";
-            m_ofstream << strOutLine << std::endl
+            scriptData.outputStream << strOutLine << std::endl
                        << "*                                                      *" << std::endl;
 
             if (!(m_ProcTable[i].m_ulType & P_NOTIMPLEMENTED))
             {
-                m_ofstream << "*    Other possible name(s):                           *" << std::endl;
+                scriptData.outputStream << "*    Other possible name(s):                           *" << std::endl;
 
                 for(uint32_t j = i + 1; j < m_ProcTable.GetSize(); j++)
                 {
@@ -335,17 +335,17 @@ void CFalloutScript::StoreDeclarations()
                         }
 
                         strOutLine += "*";
-                        m_ofstream << strOutLine << std::endl;
+                        scriptData.outputStream << strOutLine << std::endl;
                         strOutLine = "*       ";
                     }
                 }
             }
             else
             {
-                m_ofstream << "*           Not implemented                            *" << std::endl;
+                scriptData.outputStream << "*           Not implemented                            *" << std::endl;
             }
 
-            m_ofstream << "*                                                      *" << std::endl
+            scriptData.outputStream << "*                                                      *" << std::endl
                        << "*******************************************************/" << std::endl
                        << std::endl;
             continue;
@@ -394,7 +394,7 @@ void CFalloutScript::StoreDeclarations()
             strOutLine = format(strOutLine + " when (%s)", GetSource(m_Conditions[i][0], false, procDescriptor.m_ulNumArgs).c_str());
         }
 
-        m_ofstream << strOutLine << std::endl;
+        scriptData.outputStream << strOutLine << std::endl;
 
         bool bLocalVar = true;
         uint32_t ulLocalVarIndex = procDescriptor.m_ulNumArgs;
@@ -407,12 +407,12 @@ void CFalloutScript::StoreDeclarations()
             {
                 if ((nNodeIndex > 1) && (m_ProcBodies[i][nNodeIndex - 1].m_Type == CNode::TYPE_END_OF_BLOCK))
                 {
-                    m_ofstream << GetIndentString(nIndentLevel) << "else begin" << std::endl;
+                    scriptData.outputStream << GetIndentString(nIndentLevel) << "else begin" << std::endl;
                     nIndentLevel++;
-                }              
+                }
                 else
                 {
-                    m_ofstream << "begin" << std::endl;
+                    scriptData.outputStream << "begin" << std::endl;
                     nIndentLevel++;
                 }
                 //prevNodeType = CNode::TYPE_BEGIN_OF_BLOCK;
@@ -420,7 +420,7 @@ void CFalloutScript::StoreDeclarations()
             else if (m_ProcBodies[i][nNodeIndex].m_Type == CNode::TYPE_END_OF_BLOCK)
             {
                 nIndentLevel--;
-                m_ofstream << GetIndentString(nIndentLevel) << "end" << std::endl;
+                scriptData.outputStream << GetIndentString(nIndentLevel) << "end" << std::endl;
                 //prevNodeType = CNode::TYPE_END_OF_BLOCK;
             }
             else
@@ -449,12 +449,12 @@ void CFalloutScript::StoreDeclarations()
                         str += c_strLocalVarTemplate + " := ";
 
                         strOutLine = format(str.c_str(), ulLocalVarIndex);
-                        m_ofstream << GetIndentString(nIndentLevel) << strOutLine << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) <<  ";" << std::endl;
+                        scriptData.outputStream << GetIndentString(nIndentLevel) << strOutLine << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) <<  ";" << std::endl;
                         ulLocalVarIndex++;
                         break;
                     }
                     case COpcode::O_IF:
-                        m_ofstream << GetIndentString(nIndentLevel) << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) << " then ";
+                        scriptData.outputStream << GetIndentString(nIndentLevel) << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) << " then ";
                         break;
 
                     case COpcode::O_WHILE:
@@ -470,16 +470,16 @@ void CFalloutScript::StoreDeclarations()
                                 str += GetSource(m_ProcBodies[i][nNodeIndex].m_Arguments[j], false, procDescriptor.m_ulNumArgs);
                             }
                             str += ") ";
-                            m_ofstream << str;
+                            scriptData.outputStream << str;
                         }
                         else
                         {
-                            m_ofstream << GetIndentString(nIndentLevel) << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) << " do ";
+                            scriptData.outputStream << GetIndentString(nIndentLevel) << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) << " do ";
                         }
                         break;
 
                     default:
-                        m_ofstream << GetIndentString(nIndentLevel) << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) << ";" << std::endl;
+                        scriptData.outputStream << GetIndentString(nIndentLevel) << GetSource(m_ProcBodies[i][nNodeIndex], false, procDescriptor.m_ulNumArgs) << ";" << std::endl;
 
                         if ((m_ProcBodies[i][nNodeIndex].m_Type != CNode::TYPE_BEGIN_OF_BLOCK) &&
                             (m_ProcBodies[i][nNodeIndex].m_Type != CNode::TYPE_END_OF_BLOCK))
@@ -490,7 +490,7 @@ void CFalloutScript::StoreDeclarations()
             }
         }
 
-        m_ofstream << std::endl;
+        scriptData.outputStream << std::endl;
     }
 }
 

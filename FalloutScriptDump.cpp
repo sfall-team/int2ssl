@@ -19,32 +19,32 @@
 
 void CFalloutScript::Dump()
 {
-    m_ofstream << "============== Procedures table ==================" << std::endl
+    scriptData.outputStream << "============== Procedures table ==================" << std::endl
                << std::endl;
-    m_ProcTable.Dump(m_ofstream);
-    m_ofstream << std::endl;
-    m_ofstream << std::endl;
+    m_ProcTable.Dump(scriptData);
+    scriptData.outputStream << std::endl;
+    scriptData.outputStream << std::endl;
 
-    m_ofstream << "============== Namespace ==================" << std::endl;
-    m_Namespace.Dump(m_ofstream);
-    m_ofstream << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << "============== Namespace ==================" << std::endl;
+    m_Namespace.Dump(scriptData);
+    scriptData.outputStream << std::endl;
+    scriptData.outputStream << std::endl;
 
-    m_ofstream << "============== Stringspace ==================" << std::endl;
-    m_Stringspace.Dump(m_ofstream);
-    m_ofstream << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << "============== Stringspace ==================" << std::endl;
+    m_Stringspace.Dump(scriptData);
+    scriptData.outputStream << std::endl;
+    scriptData.outputStream << std::endl;
 
 
     std::string strOutLine;
     uint16_t wOperator;
     uint32_t ulArgument = 0;
 
-    m_ofstream << "============== Global variables values ==================" << std::endl;
+    scriptData.outputStream << "============== Global variables values ==================" << std::endl;
 
     if (m_GlobalVar.empty())
     {
-        m_ofstream << "Not found" << std::endl;
+        scriptData.outputStream << "Not found" << std::endl;
     }
     else
     {
@@ -57,7 +57,7 @@ void CFalloutScript::Dump()
             {
                 case COpcode::O_STRINGOP:
                 case COpcode::O_INTOP:
-                    m_ofstream <<  format("%d: %s(0x%08x)   // %u (%d)",
+                    scriptData.outputStream <<  format("%d: %s(0x%08x)   // %u (%d)",
                                     i,
                                     m_GlobalVar[i].GetAttributes().m_strMnemonic.c_str(),
                                     ulArgument,
@@ -66,7 +66,7 @@ void CFalloutScript::Dump()
                     break;
 
                 case COpcode::O_FLOATOP:
-                    m_ofstream << format("%d: %s(0x%08x)   // %05f",
+                    scriptData.outputStream << format("%d: %s(0x%08x)   // %05f",
                                     i,
                                     m_GlobalVar[i].GetAttributes().m_strMnemonic.c_str(),
                                     ulArgument,
@@ -75,14 +75,14 @@ void CFalloutScript::Dump()
         }
     }
 
-    m_ofstream << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << std::endl;
+    scriptData.outputStream << std::endl;
 
-    m_ofstream << "============== Exported variables ==================" << std::endl;
+    scriptData.outputStream << "============== Exported variables ==================" << std::endl;
 
     if (m_ExportedVarValue.empty())
     {
-        m_ofstream << "Not found" << std::endl;
+        scriptData.outputStream << "Not found" << std::endl;
     }
     else
     {
@@ -95,38 +95,38 @@ void CFalloutScript::Dump()
             switch(wOperator)
             {
                 case COpcode::O_STRINGOP:
-                    m_ofstream << format("%s := \"%s\"",
+                    scriptData.outputStream << format("%s := \"%s\"",
                                     m_Namespace[ulNameArgument].c_str(),
                                     m_Stringspace[ulArgument].c_str()) << std::endl;
                     break;
 
                 case COpcode::O_INTOP:
-                    m_ofstream << format("%s := %u (%d)",
+                    scriptData.outputStream << format("%s := %u (%d)",
                                     m_Namespace[ulNameArgument].c_str(),
                                     ulArgument,
                                     ulArgument) << std::endl;
                     break;
 
                 case COpcode::O_FLOATOP:
-                    m_ofstream << format("%s := %05f",
+                    scriptData.outputStream << format("%s := %05f",
                                     m_Namespace[ulNameArgument].c_str(),
                                     *((float*)(&ulArgument))) << std::endl;
             }
         }
     }
 
-    m_ofstream << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << std::endl;
+    scriptData.outputStream << std::endl;
 
-    m_ofstream << "============== Procedures ==================" << std::endl;
-    m_ofstream << std::endl;
+    scriptData.outputStream << "============== Procedures ==================" << std::endl;
+    scriptData.outputStream << std::endl;
 
     for(uint32_t nIndexOfProc = 0; nIndexOfProc < m_ProcTable.GetSize(); nIndexOfProc++)
     {
-        m_ofstream << format("%d: %s (0x%08x)", nIndexOfProc,
+        scriptData.outputStream << format("%d: %s (0x%08x)", nIndexOfProc,
                                                m_Namespace[m_ProcTable[nIndexOfProc].m_ulNameOffset].c_str(),
                                                m_ProcTable[nIndexOfProc].m_ulBodyOffset) << std::endl;
-        m_ofstream << "===============================" << std::endl;
+        scriptData.outputStream << "===============================" << std::endl;
 
         for(uint32_t i = 0; i < m_ProcBodies[nIndexOfProc].size(); i++)
         {
@@ -137,7 +137,7 @@ void CFalloutScript::Dump()
             {
                 case COpcode::O_STRINGOP:
                 case COpcode::O_INTOP:
-                    m_ofstream << format("0x%08X: 0x%04X 0x%08x - %s(0x%08x)   // %u (%d)",
+                    scriptData.outputStream << format("0x%08X: 0x%04X 0x%08x - %s(0x%08x)   // %u (%d)",
                                       m_ProcBodies[nIndexOfProc][i].m_ulOffset,
                                       wOperator,
                                       ulArgument,
@@ -148,7 +148,7 @@ void CFalloutScript::Dump()
                     break;
 
                 case COpcode::O_FLOATOP:
-                    m_ofstream << format("0x%08X: 0x%04X 0x%08X - %s // %05f",
+                    scriptData.outputStream << format("0x%08X: 0x%04X 0x%08X - %s // %05f",
                                       m_ProcBodies[nIndexOfProc][i].m_ulOffset,
                                       wOperator,
                                       ulArgument,
@@ -157,13 +157,13 @@ void CFalloutScript::Dump()
                     break;
 
                 default:
-                    m_ofstream << format("0x%08X: 0x%04X            - %s",
+                    scriptData.outputStream << format("0x%08X: 0x%04X            - %s",
                                       m_ProcBodies[nIndexOfProc][i].m_ulOffset,
                                       wOperator, 
                                       m_ProcBodies[nIndexOfProc][i].m_Opcode.GetAttributes().m_strMnemonic.c_str()) << std::endl;
             }
         }
 
-        m_ofstream << std::endl;
+        scriptData.outputStream << std::endl;
     }
 }

@@ -11,11 +11,11 @@
 #define OPCODE_H
 
 // C++ standard includes
-#include <fstream>
 #include <vector>
 #include <string>
 
 // int2ssl includes
+#include "FalloutScriptData.h"
 #include "Hacks/CMap.h"
 
 // Third party includes
@@ -854,9 +854,9 @@ public:
     COpcode& operator = (const COpcode& opcode);
 
 public:
-    virtual void Serialize(std::ifstream& ifstream);
-    void Expect(std::ifstream& ifstream, uint16_t wOperator, bool bArgumentFound = false, uint32_t ulArgument = 0);
-    void Expect(std::ifstream& ifstream, int nCount, uint16_t pwOperators[]);
+    virtual void Serialize(CFalloutScriptData& scriptData);
+    void Expect(CFalloutScriptData& scriptData, uint16_t wOperator, bool bArgumentFound = false, uint32_t ulArgument = 0);
+    void Expect(CFalloutScriptData& scriptData, int nCount, uint16_t pwOperators[]);
 
     bool HasArgument() const;
     int GetSize() const;

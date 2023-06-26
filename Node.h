@@ -13,11 +13,11 @@
 // C++ standard includes
 
 // int2ssl includes
+#include "FalloutScriptData.h"
 #include "Namespace.h"
 #include "Opcode.h"
 
 // Third party includes
-#include <fstream>
 
 class CNode;
 typedef std::vector<CNode> CNodeArray;
@@ -46,7 +46,7 @@ public:
     CNode& operator = (const CNode& node);
 
 public:
-    void StoreTree(std::ofstream& ofstream, int nIndent, int nIndex);
+    void StoreTree(CFalloutScriptData& scriptData, int nIndent, int nIndex);
     uint32_t  GetTopOffset();
     bool IsExpression() const;
     bool IsInfix() const;
