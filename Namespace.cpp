@@ -23,7 +23,6 @@ extern std::ofstream g_ofstream;
 
 CNamespace::CNamespace()
 {
-    m_Map.InitHashTable(128);
 }
 
 CNamespace::~CNamespace()

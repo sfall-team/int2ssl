@@ -855,7 +855,7 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
     }
 }
 
-void CFalloutScript::ReduceConditionalExpressions(CNodeArray& NodeArray)
+void CFalloutScript::ReduceConditionalExpressions(CNodeArray& /*NodeArray*/)
 {
     /*
     if (NodeArray.IsEmpty())

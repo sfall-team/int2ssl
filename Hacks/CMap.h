@@ -57,11 +57,6 @@ class CMap
             }
             return false;
         }
-
-        void InitHashTable(uint32_t n)
-        {
-
-        }
 };
 
 #endif // CMAP_H

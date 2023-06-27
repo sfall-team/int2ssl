@@ -989,7 +989,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
     return strResult;
 }
 
-std::string CFalloutScript::GetSource( CNode& node, bool bLabel, uint32_t ulNumArgs, uint32_t aulProcArg[], uint32_t ulProcArgCount)
+std::string CFalloutScript::GetSource( CNode& node, bool /*bLabel*/, uint32_t ulNumArgs, uint32_t aulProcArg[], uint32_t ulProcArgCount)
 {
     COpcode::COpcodeAttributes attributes = node.m_Opcode.GetAttributes();
     std::string strResult = attributes.m_strName + "(";

@@ -64,8 +64,6 @@ COpcode::CF1OpcodeAttributesMap::CF1OpcodeAttributesMap()
     COpcode::COpcodeAttributes::Type expression = COpcode::COpcodeAttributes::TYPE_EXPRESSION;
     //COpcode::COpcodeAttributes::Category infix = COpcode::COpcodeAttributes::CATEGORY_INFIX;
 
-    InitHashTable(32);
-
     SetAt(O_REACTION, COpcodeAttributes("O_REACTION", "reaction", 3, expression));
     SetAt(O_ANIMATE_JUMP, COpcodeAttributes("O_ANIMATE_JUMP", "animate_jump", 0));
     SetAt(O_TURN_OFF_OBJS_IN_AREA, COpcodeAttributes("O_TURN_OFF_OBJS_IN_AREA", "turn_off_objs_in_area", 4));
@@ -82,8 +80,6 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
 {
     COpcode::COpcodeAttributes::Type expression = COpcode::COpcodeAttributes::TYPE_EXPRESSION;
     COpcode::COpcodeAttributes::Category infix = COpcode::COpcodeAttributes::CATEGORY_INFIX;
-
-    InitHashTable(512);
 
     SetAt(O_NOOP, COpcodeAttributes("O_NOOP", "/* O_NOOP */", 0));
     SetAt(O_CONST, COpcodeAttributes("O_CONST", "/* O_CONST */", 0));
