@@ -68,14 +68,13 @@ private:
     void ExtractAndReduceCondition(CNodeArray& Source, CNodeArray& Destination, int32_t nStartIndex);
     void SetBordersOfBlocks(CNodeArray& NodeArray);
     uint32_t BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartIndex, uint32_t ulEndOffset);
-    void ReduceConditionalExpressions(CNodeArray& NodeArray);
     bool IsOmittetArgsAllowed(uint16_t wOpcode);
 
     void StoreDefinitions();
     void StoreDeclarations();
 
     std::string GetSource( CNode& node, bool bLabel, uint32_t ulNumArgs);
-    std::string GetSource( CNode& node, bool bLabel, uint32_t ulNumArgs, uint32_t aulProcArg[], uint32_t ulProcArgCount);
+    std::string GetSource( CNode& node, uint32_t ulNumArgs, uint32_t aulProcArg[], uint32_t ulProcArgCount);
     bool ArgNeedParens(const CNode& node, const CNode& argument, CFalloutScript::Assoc assoc = CFalloutScript::NON_ASSOC);
     std::string GetIndentString(int32_t nLevel);
 

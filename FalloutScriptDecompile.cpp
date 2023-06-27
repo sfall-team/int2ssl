@@ -855,28 +855,6 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
     }
 }
 
-void CFalloutScript::ReduceConditionalExpressions(CNodeArray& /*NodeArray*/)
-{
-    /*
-    if (NodeArray.IsEmpty())
-    {
-        return;
-    }
-    CNode node;
-
-    for (int32_t i = 0; i < NodeArray.GetSize(); i++)
-    {
-        if (NodeArray[i].m_Opcode.GetOperator() == COpcode::O_IF)
-        {
-            if (ReduceExpressionBlock(NodeArray, i+1))
-            {
-
-            }
-        }
-    }
-    */
-}
-
 bool CFalloutScript::IsOmittetArgsAllowed(uint16_t wOpcode)
 {
     if (((wOpcode >= COpcode::O_END_CORE) && (wOpcode < COpcode::O_END_OP)) ||

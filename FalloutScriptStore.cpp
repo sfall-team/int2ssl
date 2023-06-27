@@ -782,7 +782,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_REFRESHMOUSE:
             {
                 uint32_t aulProcArg[1] = { 1 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
             }
 
             break;
@@ -790,7 +790,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDBUTTONPROC:
             {
                 uint32_t aulProcArg[4] = { 2, 3, 4, 5 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 4);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 4);
             }
 
             break;
@@ -798,7 +798,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDBUTTONRIGHTPROC:
             {
                 uint32_t aulProcArg[2] = { 2, 3 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 2);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 2);
             }
 
             break;
@@ -808,7 +808,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
                 if (node.m_Arguments[1].m_Opcode.GetOperator() == COpcode::O_INTOP)
                 {
                     uint32_t aulProcArg[2] = { 2 };
-                    strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                    strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
                 }
                 else
                 {
@@ -822,7 +822,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDREGIONPROC:
             {
                 uint32_t aulProcArg[4] = { 2, 3, 4, 5 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 4);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 4);
             }
 
             break;
@@ -830,7 +830,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDREGIONRIGHTPROC:
             {
                 uint32_t aulProcArg[2] = { 2, 3 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 2);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 2);
             }
 
             break;
@@ -838,7 +838,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDNAMEDEVENT:
             {
                 uint32_t aulProcArg[1] = { 2 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
             }
 
             break;
@@ -846,7 +846,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDNAMEDHANDLER:
             {
                 uint32_t aulProcArg[1] = { 2 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
             }
 
             break;
@@ -854,7 +854,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_ADDKEY:
             {
                 uint32_t aulProcArg[1] = { 2 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
             }
 
             break;
@@ -862,7 +862,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_GSAY_OPTION:
             {
                 uint32_t aulProcArg[1] = { 3 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
             }
 
             break;
@@ -870,7 +870,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
         case COpcode::O_GIQ_OPTION:
             {
                 uint32_t aulProcArg[1] = { 4 };
-                strResult = GetSource(node, bLabel, ulNumArgs, aulProcArg, 1);
+                strResult = GetSource(node, ulNumArgs, aulProcArg, 1);
             }
 
             break;
@@ -899,14 +899,14 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
             }
 
             break;
-            
+
         default:
             COpcode::COpcodeAttributes attributes = node.m_Opcode.GetAttributes();
             uint32_t *procArgs = attributes.m_procArgs;
             uint32_t numProcArgs = attributes.m_numProcArgs;
             if (numProcArgs > 0)
             {
-                strResult = GetSource(node, bLabel, ulNumArgs, procArgs, numProcArgs);
+                strResult = GetSource(node, ulNumArgs, procArgs, numProcArgs);
                 break;
             }
             if (node.m_Type == CNode::TYPE_CONDITIONAL_EXPRESSION)
@@ -941,7 +941,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
                     strResult += " ";
                     strResult += attributes.m_strName + " ";
 
-                    
+
                     if (ArgNeedParens(node, node.m_Arguments[1], CFalloutScript::RIGHT_ASSOC))
                     {
                         strResult += "(";
@@ -989,7 +989,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
     return strResult;
 }
 
-std::string CFalloutScript::GetSource( CNode& node, bool /*bLabel*/, uint32_t ulNumArgs, uint32_t aulProcArg[], uint32_t ulProcArgCount)
+std::string CFalloutScript::GetSource( CNode& node, uint32_t ulNumArgs, uint32_t aulProcArg[], uint32_t ulProcArgCount)
 {
     COpcode::COpcodeAttributes attributes = node.m_Opcode.GetAttributes();
     std::string strResult = attributes.m_strName + "(";
