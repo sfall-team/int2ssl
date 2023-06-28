@@ -800,7 +800,8 @@ public:
     public:
         enum Type {
             TYPE_STATEMENT,
-            TYPE_EXPRESSION
+            TYPE_EXPRESSION,
+            TYPE_EXPRESSIONSTATEMENT,
         };
 
         enum Category {

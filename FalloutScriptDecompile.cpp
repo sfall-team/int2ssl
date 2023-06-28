@@ -539,22 +539,25 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
         if (wOperator == COpcode::O_IF)
         {
             // process possible conditional expression - this may be either normal IF statement or (x IF y ELSE z) expression
-            uint32_t ulElseOffset = NodeArray[j].m_Arguments[0].m_Opcode.GetArgument();
+            CNodeArray& arguments = NodeArray[j].m_Arguments;
+            uint32_t ulElseOffset = arguments[0].m_Opcode.GetArgument();
             int32_t ulElseIndex, ulSkipIndex = -1;
             ulElseIndex = BuildTreeBranch(NodeArray, j + 1, ulElseOffset); // true branch
-            if (NodeArray[ulElseIndex - 1].m_Opcode.GetOperator() == COpcode::O_JMP)
+            CNode& jumpNode = NodeArray[ulElseIndex - 1];
+            if (jumpNode.m_Opcode.GetOperator() == COpcode::O_JMP)
             {
-                uint32_t ulSkipOffset = NodeArray[ulElseIndex - 1].m_Opcode.GetArgument();
+                uint32_t ulSkipOffset = jumpNode.m_Opcode.GetArgument();
                 if (ulSkipOffset > NodeArray[j].m_ulOffset)
                 {
                     ulSkipIndex = BuildTreeBranch(NodeArray, ulElseIndex, ulSkipOffset); // false branch
-                    if (NodeArray[ulElseIndex - 2].IsExpression() && NodeArray[ulSkipIndex - 1].IsExpression())
+                    if (ulElseIndex == j + 3 && ulSkipIndex == ulElseIndex + 1 &&
+                        NodeArray[ulElseIndex - 2].IsExpression() && NodeArray[ulSkipIndex - 1].IsExpression())
                     { // conditional expression
                         NodeArray[j].m_Type = CNode::TYPE_CONDITIONAL_EXPRESSION;
-                        NodeArray[j].m_Arguments.erase(NodeArray[j].m_Arguments.begin() + 0); // address not needed anymore
-                        NodeArray[j].m_Arguments.insert(NodeArray[j].m_Arguments.begin() + 0, NodeArray[ulElseIndex - 2]); // true expression
-                        NodeArray[j].m_Arguments.insert(NodeArray[j].m_Arguments.begin() + 2, NodeArray[ulSkipIndex - 1]); // false expression
-                        NodeArray.erase(NodeArray.begin() + j + 1, NodeArray.begin() + j + 1 + ulSkipIndex - j - 1);
+                        arguments.insert(arguments.begin() + 2, NodeArray[ulElseIndex - 2]); // true expression
+                        arguments.insert(arguments.begin() + 3, NodeArray[ulSkipIndex - 1]); // false expression
+                        arguments.insert(arguments.begin() + 4, jumpNode); // jump node
+                        NodeArray.erase(NodeArray.begin() + j + 1, NodeArray.begin() + ulSkipIndex);
                         continue;
                     }
                 }
@@ -644,7 +647,7 @@ void CFalloutScript::ExtractAndReduceCondition(CNodeArray& Source, CNodeArray& D
     }
     else
     {
-        if (Destination[0].m_Opcode.GetAttributes().m_Type != COpcode::COpcodeAttributes::TYPE_EXPRESSION)
+        if (!Destination[0].IsExpression())
         {
             printf("Error: Invalid condition. Expression required\n");
             throw std::exception();
@@ -787,8 +790,20 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
             {
                 if (NodeArray[i].m_Type == CNode::TYPE_CONDITIONAL_EXPRESSION)
                 {
-                    printf("Error: Conditional expression left in stack\n");
-                    throw std::exception();
+                    CNodeArray& args = NodeArray[i].m_Arguments;
+                    // If both true and false expressions can be statements, we can safely decompile this
+                    if (args[2].m_Opcode.GetAttributes().m_Type != COpcode::COpcodeAttributes::Type::TYPE_EXPRESSIONSTATEMENT ||
+                        args[3].m_Opcode.GetAttributes().m_Type != COpcode::COpcodeAttributes::Type::TYPE_EXPRESSIONSTATEMENT)
+                    {
+                        throw std::exception();
+                        printf("Error: Conditional expression left in stack.\n");
+                    }
+                    printf("Warning: Conditional expression left in stack. Restoring as IF.\n");
+                    NodeArray[i].m_Type = CNode::TYPE_NORMAL;
+                    NodeArray.insert(NodeArray.begin() + i + 1, args[2]); // true branch
+                    NodeArray.insert(NodeArray.begin() + i + 2, args[4]); // jump
+                    NodeArray.insert(NodeArray.begin() + i + 3, args[3]); // false branch
+                    args.erase(args.begin() + 2, args.end());
                 }
                 CNode node = NodeArray[i].m_Arguments[0];
 
