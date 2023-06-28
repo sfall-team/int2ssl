@@ -541,7 +541,7 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
             // process possible conditional expression - this may be either normal IF statement or (x IF y ELSE z) expression
             CNodeArray& arguments = NodeArray[j].m_Arguments;
             uint32_t ulElseOffset = arguments[0].m_Opcode.GetArgument();
-            int32_t ulElseIndex, ulSkipIndex = -1;
+            uint32_t ulElseIndex, ulSkipIndex = 0;
             ulElseIndex = BuildTreeBranch(NodeArray, j + 1, ulElseOffset); // true branch
             CNode& jumpNode = NodeArray[ulElseIndex - 1];
             if (jumpNode.m_Opcode.GetOperator() == COpcode::O_JMP)
@@ -562,7 +562,7 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
                     }
                 }
             }
-            j = ((ulSkipIndex != -1) ? ulSkipIndex : ulElseIndex) - 1; // skip already built
+            j = ((ulSkipIndex > 0) ? ulSkipIndex : ulElseIndex) - 1; // skip already built
         }
     }
 
@@ -795,8 +795,8 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
                     if (args[2].m_Opcode.GetAttributes().m_Type != COpcode::COpcodeAttributes::Type::TYPE_EXPRESSIONSTATEMENT ||
                         args[3].m_Opcode.GetAttributes().m_Type != COpcode::COpcodeAttributes::Type::TYPE_EXPRESSIONSTATEMENT)
                     {
-                        throw std::exception();
                         printf("Error: Conditional expression left in stack.\n");
+                        throw std::exception();
                     }
                     printf("Warning: Conditional expression left in stack. Restoring as IF.\n");
                     NodeArray[i].m_Type = CNode::TYPE_NORMAL;
