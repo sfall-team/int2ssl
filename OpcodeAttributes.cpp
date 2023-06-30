@@ -79,6 +79,7 @@ uint32_t procArgs[] = {1, 2};
 COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
 {
     COpcode::COpcodeAttributes::Type expression = COpcode::COpcodeAttributes::TYPE_EXPRESSION;
+    COpcode::COpcodeAttributes::Type exprStatement = COpcode::COpcodeAttributes::TYPE_EXPRESSIONSTATEMENT;
     COpcode::COpcodeAttributes::Category infix = COpcode::COpcodeAttributes::CATEGORY_INFIX;
 
     SetAt(O_NOOP, COpcodeAttributes("O_NOOP", "/* O_NOOP */", 0));
@@ -339,7 +340,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_CRITTER_ATTEMPT_PLACEMENT, COpcodeAttributes("O_CRITTER_ATTEMPT_PLACEMENT", "critter_attempt_placement", 3, expression));
     SetAt(O_OBJ_PID, COpcodeAttributes("O_OBJ_PID", "obj_pid", 1, expression));
     SetAt(O_CUR_MAP_INDEX, COpcodeAttributes("O_CUR_MAP_INDEX", "cur_map_index", 0, expression));
-    SetAt(O_CRITTER_ADD_TRAIT, COpcodeAttributes("O_CRITTER_ADD_TRAIT", "critter_add_trait", 4, expression));
+    SetAt(O_CRITTER_ADD_TRAIT, COpcodeAttributes("O_CRITTER_ADD_TRAIT", "critter_add_trait", 4, exprStatement));
     SetAt(O_CRITTER_RM_TRAIT, COpcodeAttributes("O_CRITTER_RM_TRAIT", "critter_rm_trait", 4, expression));
     SetAt(O_PROTO_DATA, COpcodeAttributes("O_PROTO_DATA", "proto_data", 2, expression));
     SetAt(O_MESSAGE_STR, COpcodeAttributes("O_MESSAGE_STR", "message_str", 2, expression));

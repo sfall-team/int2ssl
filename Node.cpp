@@ -130,7 +130,9 @@ uint32_t CNode::GetTopOffset()
 
 bool CNode::IsExpression() const
 {
-    return (m_Opcode.GetAttributes().m_Type == COpcode::COpcodeAttributes::TYPE_EXPRESSION 
+    COpcode::COpcodeAttributes::Type type = m_Opcode.GetAttributes().m_Type;
+    return (type == COpcode::COpcodeAttributes::TYPE_EXPRESSION
+        || type ==  COpcode::COpcodeAttributes::TYPE_EXPRESSIONSTATEMENT
         || m_Type == TYPE_CONDITIONAL_EXPRESSION);
 }
 

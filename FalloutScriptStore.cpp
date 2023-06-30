@@ -911,17 +911,19 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
             }
             if (node.m_Type == CNode::TYPE_CONDITIONAL_EXPRESSION)
             {
-                if (node.m_Arguments.size() != 3)
+                if (node.m_Arguments.size() != 5)
                 {
                     printf("Error: Invalid number of arguments in conditional expression\n");
                     throw std::exception();
                 }
                 std::string sPostfix[] = { " if ", " else ", ""};
+                uint16_t argIdx[] = {2, 1, 3};
                 strResult = "";
-                for(uint32_t i = 0; i < node.m_Arguments.size(); i++)
+                for (uint32_t i = 0; i < 3; i++)
                 {
-                    bool bParens = ArgNeedParens(node, node.m_Arguments[i], CFalloutScript::RIGHT_ASSOC);
-                    strResult += (bParens ? "(" : "") + GetSource(node.m_Arguments[i], bLabel, ulNumArgs) + (bParens ? ")" : "") + sPostfix[i];
+                    CNode& arg = node.m_Arguments[argIdx[i]];
+                    bool bParens = ArgNeedParens(node, arg, CFalloutScript::RIGHT_ASSOC);
+                    strResult += (bParens ? "(" : "") + GetSource(arg, bLabel, ulNumArgs) + (bParens ? ")" : "") + sPostfix[i];
                 }
                 break;
             }
