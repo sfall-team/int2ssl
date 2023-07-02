@@ -73,7 +73,7 @@ void CFalloutScript::Dump()
                                     i,
                                     m_GlobalVar[i].GetAttributes().m_strMnemonic.c_str(),
                                     ulArgument,
-                                    *((float*)(&ulArgument))) << std::endl;
+                                    int2ssl::bit_cast<float>(ulArgument)) << std::endl;
             }
         }
     }
@@ -113,7 +113,7 @@ void CFalloutScript::Dump()
                 case COpcode::O_FLOATOP:
                     g_ofstream << format("%s := %05f",
                                     m_Namespace[ulNameArgument].c_str(),
-                                    *((float*)(&ulArgument))) << std::endl;
+                                    int2ssl::bit_cast<float>(ulArgument)) << std::endl;
             }
         }
     }
@@ -156,7 +156,7 @@ void CFalloutScript::Dump()
                                       wOperator,
                                       ulArgument,
                                       m_ProcBodies[nIndexOfProc][i].m_Opcode.GetAttributes().m_strMnemonic.c_str(),
-                                      *((float*)(&ulArgument))) << std::endl;
+                                      int2ssl::bit_cast<float>(ulArgument)) << std::endl;
                     break;
 
                 default:
