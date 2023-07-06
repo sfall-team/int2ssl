@@ -1,5 +1,8 @@
 int2ssl
 =====
+#### 8.4.7
+- Fixed unable to decompile some old scripts due to incorrect detection of the ternary operator
+
 #### 8.4.6
 - Added support for additional universal opcodes `sfall_func7` and `sfall_func8`
 
