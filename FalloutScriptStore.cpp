@@ -104,7 +104,7 @@ void CFalloutScript::StoreDefinitions()
                     break;
 
                 case COpcode::O_FLOATOP:
-                    strDefinition = format(strDefinition + " := %.5f", *((float*)(&ulVarValue)));
+                    strDefinition = format(strDefinition + " := %.5f", int2ssl::bit_cast<float>(ulVarValue));
                     break;
 
                 case COpcode::O_INTOP:
@@ -249,7 +249,7 @@ void CFalloutScript::StoreDefinitions()
                                 break;
 
                             case COpcode::O_FLOATOP:
-                                strDefinition = format(strDefinition + " := %.5f", *((float*)(&defObject.m_ulVarValue)));
+                                strDefinition = format(strDefinition + " := %.5f", int2ssl::bit_cast<float>(defObject.m_ulVarValue));
                                 break;
 
                             case COpcode::O_INTOP:
@@ -548,7 +548,7 @@ std::string CFalloutScript::GetSource(CNode& node, bool bLabel, uint32_t ulNumAr
             break;
 
         case COpcode::O_FLOATOP:
-            strResult = format("%.5f", *((float*)(&ulArgument)));
+            strResult = format("%.5f", int2ssl::bit_cast<float>(ulArgument));
             break;
 
         case COpcode::O_INTOP:

@@ -11,6 +11,8 @@
 #define FALLOUT_SCRIPT_H
 
 // C++ standard includes
+#include <cstring> // for std::memcpy()    / int2ssl::bit_cast<>
+#include <memory>  // for std::addressof() / int2ssl::bit_cast<>
 #include <vector>
 
 // int2ssl includes
@@ -124,5 +126,22 @@ private:
     CMapuint32_tToDefObject m_Definitions;
     std::vector<std::string> m_GlobalVarsNames;
 };
+
+namespace int2ssl
+{
+    // https://en.cppreference.com/w/cpp/numeric/bit_cast
+    template<class T, class F>
+    T bit_cast(const F& f)
+    {
+        static_assert(sizeof(T) == sizeof(F), "Types must match sizes");
+        static_assert(std::is_pod<F>::value, "Requires POD input");
+        static_assert(std::is_pod<T>::value, "Requires POD output");
+
+        T t;
+        std::memcpy(std::addressof(t), std::addressof(f), sizeof(T));
+
+        return t;
+    }
+}
 
 #endif //FALLOUT_SCRIPT_H
