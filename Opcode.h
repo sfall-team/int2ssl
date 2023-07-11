@@ -856,7 +856,6 @@ public:
 public:
     virtual void Serialize();
     void Expect(uint16_t wOperator, bool bArgumentFound = false, uint32_t ulArgument = 0);
-    void Expect(int nCount, uint16_t pwOperators[]);
 
     bool HasArgument() const;
     int GetSize() const;

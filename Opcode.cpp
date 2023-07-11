@@ -57,8 +57,6 @@ void COpcode::Serialize()
         throw std::exception();
     }
 
-
-
     if ((m_wOperator < O_OPERATOR) ||
         ((m_wOperator >= O_END_OP) &&
          (m_wOperator != O_STRINGOP) &&
@@ -99,39 +97,6 @@ void COpcode::Expect(uint16_t wOperator, bool bArgumentFound, uint32_t ulArgumen
             printf("Error: Unexpected argument of opcode. (0x%08X expected, but 0x%08X found)\n", ulArgument, m_ulArgument);
             throw std::exception();
         }
-    }
-}
-
-void COpcode::Expect(int nCount, uint16_t pwOperators[])
-{
-    Serialize();
-    bool bFound = false;
-
-    for(int i = 0; i < nCount; i++)
-    {
-        if (m_wOperator == pwOperators[i])
-        {
-            bFound = true;
-            break;
-        }
-    }
-
-    if (!bFound)
-    {
-        printf("Error: Unexpected opcode (");
-
-        for(int i = 0; i < nCount; i++)
-        {
-            if (i != 0)
-            {
-                printf(" or ");
-            }
-
-            printf("0x%04X", pwOperators[i]);
-        }
-
-        printf(" expected, but 0x%04X found)\n", m_wOperator);
-        throw std::exception();
     }
 }
 
