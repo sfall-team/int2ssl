@@ -303,8 +303,13 @@ void CFalloutScript::StoreDeclarations()
         }
 
         // Empty procedure
-        if (m_ProcTable.GetSizeOfProc(i) == 0 && (m_ProcTable[i].m_ulType & P_IMPORT) == 0)
+        if (m_ProcTable.GetSizeOfProc(i) == 0)
         {
+            if ((m_ProcTable[i].m_ulType & P_IMPORT) != 0)
+            {
+                continue;
+            }
+
             g_ofstream << "/*******************************************************" << std::endl
                        << "*    Found Procedure without body.                     *" << std::endl
                        << "*                                                      *" << std::endl;
