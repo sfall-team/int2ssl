@@ -1,5 +1,9 @@
 int2ssl
 =====
+
+#### 8.4.8
+- Fixed break statement decompilation
+
 #### 8.4.7
 - Fixed unable to decompile some old scripts due to incorrect detection of the ternary operator
 - Fixed treating imported procedures as procedures without a body
