@@ -483,11 +483,8 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
 
             case COpcode::O_JMP:
             {
-                if (
-                    j > 0 && 
-                    !NodeArray[NextNodeIndex(NodeArray, j, -1)].IsExpression() && 
-                    bInLoop
-                ) {  // this is a break of while loop
+                if (j > 0 && !NodeArray[NextNodeIndex(NodeArray, j, -1)].IsExpression() && bInLoop)
+                { // this is a break of while loop
                     nNumOfArgs = 0;
                     NodeArray[j].m_Type = CNode::TYPE_BREAK;
                 }
@@ -575,7 +572,8 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
                 }
             }
             j = ((ulSkipIndex > 0) ? ulSkipIndex : ulElseIndex) - 1; // skip already built
-        } else if (wOperator == COpcode::O_WHILE)
+        }
+        else if (wOperator == COpcode::O_WHILE)
         {
             CNodeArray& arguments = NodeArray[j].m_Arguments;
             uint32_t ulEndLoopOffset = arguments[0].m_Opcode.GetArgument();
