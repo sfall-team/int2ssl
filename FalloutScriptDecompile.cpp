@@ -414,7 +414,7 @@ void CFalloutScript::InitialReduce()
 }
 
 // build tree for all nodes from nStartIndex to file offset ulEndOffset (not including)
-uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartIndex, uint32_t ulEndOffset)
+uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartIndex, uint32_t ulEndOffset, uint32_t ulWhileLoopEndOffset)
 {
     uint16_t wOperator;
     //uint32_t ulArgument;
@@ -480,6 +480,18 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
                 nNumOfArgs = int32_t(ulAddRegionNumOfArgs) + 1;
                 break;
             }
+
+            case COpcode::O_JMP:
+            {
+                if (
+                    j > 0 && 
+                    !NodeArray[NextNodeIndex(NodeArray, j, -1)].IsExpression() && 
+                    ulWhileLoopEndOffset != 0
+                ) {  // this is a break of while loop
+                    nNumOfArgs = 0;
+                    NodeArray[j].m_Type = CNode::TYPE_BREAK;
+                }
+            }
         }
 
         // Check nodes
@@ -542,14 +554,14 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
             CNodeArray& arguments = NodeArray[j].m_Arguments;
             uint32_t ulElseOffset = arguments[0].m_Opcode.GetArgument();
             uint32_t ulElseIndex, ulSkipIndex = 0;
-            ulElseIndex = BuildTreeBranch(NodeArray, j + 1, ulElseOffset); // true branch
+            ulElseIndex = BuildTreeBranch(NodeArray, j + 1, ulElseOffset, ulWhileLoopEndOffset); // true branch
             CNode& jumpNode = NodeArray[ulElseIndex - 1];
             if (jumpNode.m_Opcode.GetOperator() == COpcode::O_JMP)
             {
                 uint32_t ulSkipOffset = jumpNode.m_Opcode.GetArgument();
                 if (ulSkipOffset > NodeArray[j].m_ulOffset)
                 {
-                    ulSkipIndex = BuildTreeBranch(NodeArray, ulElseIndex, ulSkipOffset); // false branch
+                    ulSkipIndex = BuildTreeBranch(NodeArray, ulElseIndex, ulSkipOffset, ulWhileLoopEndOffset); // false branch
                     if (ulElseIndex == j + 3 && ulSkipIndex == ulElseIndex + 1 &&
                         NodeArray[ulElseIndex - 2].IsExpression() && NodeArray[ulSkipIndex - 1].IsExpression())
                     { // conditional expression
@@ -563,6 +575,12 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
                 }
             }
             j = ((ulSkipIndex > 0) ? ulSkipIndex : ulElseIndex) - 1; // skip already built
+        } else if (wOperator == COpcode::O_WHILE)
+        {
+            CNodeArray& arguments = NodeArray[j].m_Arguments;
+            uint32_t ulEndLoopOffset = arguments[0].m_Opcode.GetArgument();
+            uint32_t ulEndLoopIndex = BuildTreeBranch(NodeArray, j + 1, ulEndLoopOffset, ulEndLoopOffset);
+            j = ulEndLoopIndex - 1; // skip already built
         }
     }
 
@@ -573,7 +591,7 @@ void CFalloutScript::BuildTree(CNodeArray& NodeArray)
 {
     if (NodeArray.size() > 0)
     {
-        BuildTreeBranch(NodeArray, 0, NodeArray[NodeArray.size() - 1].m_ulOffset + COpcode::OPERATOR_SIZE);
+        BuildTreeBranch(NodeArray, 0, NodeArray[NodeArray.size() - 1].m_ulOffset + COpcode::OPERATOR_SIZE, 0);
     }
 }
 
