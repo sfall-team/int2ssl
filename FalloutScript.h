@@ -69,7 +69,7 @@ private:
     void BuildTree(CNodeArray& NodeArray);
     void ExtractAndReduceCondition(CNodeArray& Source, CNodeArray& Destination, int32_t nStartIndex);
     void SetBordersOfBlocks(CNodeArray& NodeArray);
-    uint32_t BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartIndex, uint32_t ulEndOffset, uint32_t ulWhileLoopEndOffset);
+    uint32_t BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartIndex, uint32_t ulEndOffset, bool bIsWhileLoop);
     bool IsOmittetArgsAllowed(uint16_t wOpcode);
 
     void StoreDefinitions();
