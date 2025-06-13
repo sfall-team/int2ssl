@@ -489,6 +489,7 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
                     ulWhileLoopEndOffset != 0
                 ) {
                     nNumOfArgs = 0; // this is a break of while loop
+                    NodeArray[j].m_Type = CNode::TYPE_BREAK;
                 }
             }
         }
@@ -752,8 +753,6 @@ void CFalloutScript::SetBordersOfBlocks(CNodeArray& NodeArray)
                         {
                             jumps.push_back(nNodeIndex);
                         }
-                    } else if (node.m_Opcode.GetOperator() == COpcode::O_JMP && node.m_Type == CNode::TYPE_NORMAL && node.m_Arguments.size() == 0) {
-                        NodeArray[nNodeIndex].m_Type = CNode::TYPE_BREAK;
                     }
                 }
                 while(node.m_ulOffset < ulOffset);
