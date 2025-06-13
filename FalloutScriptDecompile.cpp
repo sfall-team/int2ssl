@@ -487,8 +487,8 @@ uint32_t CFalloutScript::BuildTreeBranch(CNodeArray& NodeArray, uint32_t nStartI
                     j > 0 && 
                     !NodeArray[NextNodeIndex(NodeArray, j, -1)].IsExpression() && 
                     ulWhileLoopEndOffset != 0
-                ) {
-                    nNumOfArgs = 0; // this is a break of while loop
+                ) {  // this is a break of while loop
+                    nNumOfArgs = 0;
                     NodeArray[j].m_Type = CNode::TYPE_BREAK;
                 }
             }
