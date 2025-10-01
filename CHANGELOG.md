@@ -1,5 +1,8 @@
 int2ssl
-=====
+=======
+
+#### 8.4.9
+- Fixed incorrect mnemonic names in script dumps
 
 #### 8.4.8
 - Fixed `break` statement decompilation

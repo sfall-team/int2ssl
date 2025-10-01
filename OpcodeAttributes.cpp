@@ -658,7 +658,6 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_FS_READ_INT,     COpcodeAttributes("O_FS_READ_INT",    "fs_read_int",     1, expression));
     SetAt(O_FS_READ_FLOAT,   COpcodeAttributes("O_FS_READ_FLOAT",  "fs_read_float",   1, expression));
 
-
     SetAt(O_LIST_BEGIN,     COpcodeAttributes("O_LIST_BEGIN",     "list_begin",     1, expression));
     SetAt(O_LIST_NEXT,      COpcodeAttributes("O_LIST_NEXT",      "list_next",      1, expression));
     SetAt(O_LIST_END,       COpcodeAttributes("O_LIST_END",       "list_end",       1));
@@ -673,7 +672,6 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_SET_HERO_STYLE,  COpcodeAttributes("O_SET_HERO_STYLE",   "set_hero_style",   1));
 
     SetAt(O_SET_CRITTER_BURST_DISABLE,  COpcodeAttributes("O_SET_CRITTER_BURST_DISABLE",  "set_critter_burst_disable",  2));
-
 
     SetAt(O_GET_WEAPON_AMMO_PID,        COpcodeAttributes("O_GET_WEAPON_AMMO_PID", "get_weapon_ammo_pid",               1, expression));
     SetAt(O_SET_WEAPON_AMMO_PID,        COpcodeAttributes("O_SET_WEAPON_AMMO_PID", "set_weapon_ammo_pid",               2));
@@ -702,7 +700,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_GET_ARRAY,                  COpcodeAttributes("O_GET_ARRAY", "get_array",                                   2, expression));
     SetAt(O_FREE_ARRAY,                 COpcodeAttributes("O_FREE_ARRAY", "free_array",                                 1));
 
-    //sfall vrs 2.8
+    //sfall 2.8
     SetAt(O_TS_LEN_ARRAY,              COpcodeAttributes("O_TS_LEN_ARRAY", "len_array",                                 1, expression));
     SetAt(O_TS_RESIZE_ARRAY,           COpcodeAttributes("O_TS_RESIZE_ARRAY", "resize_array",                           2));
     SetAt(O_TS_TEMP_ARRAY,             COpcodeAttributes("O_TS_TEMP_ARRAY", "temp_array",                               2, expression));
@@ -721,7 +719,7 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_GET_SFALL_ARGS,         COpcodeAttributes("O_TS_GET_SFALL_ARGS", "get_sfall_args",                       0, expression));
 
     // sfall 2.12
-    SetAt(O_TS_SET_SFALL_ARG,          COpcodeAttributes("O_TS_GET_SFALL_ARG", "set_sfall_arg",                         2));
+    SetAt(O_TS_SET_SFALL_ARG,          COpcodeAttributes("O_TS_SET_SFALL_ARG", "set_sfall_arg",                         2));
 
     // sfall 2.16
     SetAt(O_TS_FORCE_AIMED_SHOTS,      COpcodeAttributes("O_TS_FORCE_AIMED_SHOTS", "force_aimed_shots",                 1));
@@ -732,61 +730,61 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
     SetAt(O_TS_GET_NPC_LEVEL,          COpcodeAttributes("O_TS_GET_NPC_LEVEL", "get_npc_level",                         1, expression));
 
     // sfall 3.0
-    SetAt(O_TS_SET_CRITTER_SKILL_POINTS,   COpcodeAttributes("O_TS_SET_CRITTER_SKILL_POINTS", "set_critter_skill_points",      3));
-    SetAt(O_TS_GET_CRITTER_SKILL_POINTS,   COpcodeAttributes("O_TS_GET_CRITTER_SKILL_POINTS", "get_critter_skill_points",      2, expression));
-    SetAt(O_TS_SET_AVAILABLE_SKILL_POINTS, COpcodeAttributes("O_TS_SET_AVAILABLE_SKILL_POINTS", "set_available_skill_points",  1));
-    SetAt(O_TS_GET_AVAILABLE_SKILL_POINTS, COpcodeAttributes("O_TS_GET_AVAILABLE_SKILL_POINTS", "get_available_skill_points",  0, expression));
-    SetAt(O_TS_MOD_SKILL_POINTS_PER_LEVEL, COpcodeAttributes("O_TS_MOD_SKILL_POINTS_PER_LEVEL", "mod_skill_points_per_level",  1));
-    SetAt(O_TS_SET_PERK_FREQ,              COpcodeAttributes("O_TS_SET_PERK_FREQ", "set_perk_freq",                            1));
-    SetAt(O_TS_GET_LAST_TARGET,            COpcodeAttributes("O_TS_GET_LAST_TARGET", "get_last_attacker",                      1, expression));
-    SetAt(O_TS_GET_LAST_ATTACKER,          COpcodeAttributes("O_TS_GET_LAST_ATTACKER", "get_last_target",                      1, expression));
-    SetAt(O_TS_BLOCK_COMBAT,               COpcodeAttributes("O_TS_BLOCK_COMBAT", "block_combat",                              1));
+    SetAt(O_TS_SET_CRITTER_SKILL_POINTS,   COpcodeAttributes("O_TS_SET_CRITTER_SKILL_POINTS", "set_critter_skill_points",     3));
+    SetAt(O_TS_GET_CRITTER_SKILL_POINTS,   COpcodeAttributes("O_TS_GET_CRITTER_SKILL_POINTS", "get_critter_skill_points",     2, expression));
+    SetAt(O_TS_SET_AVAILABLE_SKILL_POINTS, COpcodeAttributes("O_TS_SET_AVAILABLE_SKILL_POINTS", "set_available_skill_points", 1));
+    SetAt(O_TS_GET_AVAILABLE_SKILL_POINTS, COpcodeAttributes("O_TS_GET_AVAILABLE_SKILL_POINTS", "get_available_skill_points", 0, expression));
+    SetAt(O_TS_MOD_SKILL_POINTS_PER_LEVEL, COpcodeAttributes("O_TS_MOD_SKILL_POINTS_PER_LEVEL", "mod_skill_points_per_level", 1));
+    SetAt(O_TS_SET_PERK_FREQ,              COpcodeAttributes("O_TS_SET_PERK_FREQ", "set_perk_freq",                           1));
+    SetAt(O_TS_GET_LAST_TARGET,            COpcodeAttributes("O_TS_GET_LAST_TARGET", "get_last_attacker",                     1, expression));
+    SetAt(O_TS_GET_LAST_ATTACKER,          COpcodeAttributes("O_TS_GET_LAST_ATTACKER", "get_last_target",                     1, expression));
+    SetAt(O_TS_BLOCK_COMBAT,               COpcodeAttributes("O_TS_BLOCK_COMBAT", "block_combat",                             1));
 
     // sfall 3.3
-    SetAt(O_TS_TILE_UNDER_CURSOR,         COpcodeAttributes("O_TS_TILE_UNDER_CURSOR", "tile_under_cursor",                             0, expression));
-    SetAt(O_TS_GET_BARTER_MOD,            COpcodeAttributes("O_TS_GET_BARTER_MOD", "gdialog_get_barter_mod",                      0, expression));
-    SetAt(O_TS_SET_INVEN_AP_COST,         COpcodeAttributes("O_TS_SET_INVEN_AP_COST", "set_inven_ap_cost",                            1));
+    SetAt(O_TS_TILE_UNDER_CURSOR,         COpcodeAttributes("O_TS_TILE_UNDER_CURSOR", "tile_under_cursor",                    0, expression));
+    SetAt(O_TS_GET_BARTER_MOD,            COpcodeAttributes("O_TS_GET_BARTER_MOD", "gdialog_get_barter_mod",                  0, expression));
+    SetAt(O_TS_SET_INVEN_AP_COST,         COpcodeAttributes("O_TS_SET_INVEN_AP_COST", "set_inven_ap_cost",                    1));
 
     // sfall 3.4
-    SetAt(O_TS_SUBSTR,                    COpcodeAttributes("O_TS_SUBSTR", "substr",             3, expression));
-    SetAt(O_TS_STRLEN,                    COpcodeAttributes("O_TS_STRLEN", "strlen",             1, expression));
-    SetAt(O_TS_SPRINTF,                   COpcodeAttributes("O_TS_SPRINTF", "sprintf",       2, expression));
-    SetAt(O_TS_ORD,                       COpcodeAttributes("O_TS_ORD", "charcode",     1, expression)); // sfall 3.5
-    //SetAt(O_TS_RESERVD2,                COpcodeAttributes("O_TS_RESERVD2", "substr",      3, expression));
-    SetAt(O_TS_TYPEOF,                    COpcodeAttributes("O_TS_TYPEOF", "typeof",             1, expression));
-    SetAt(O_TS_LOG,                       COpcodeAttributes("O_TS_LOG", "log",           1, expression)); // sfall 3.5
-    SetAt(O_TS_EXP,                       COpcodeAttributes("O_TS_EXP", "exponent",      1, expression)); // sfall 3.5
-    SetAt(O_TS_CEIL,                      COpcodeAttributes("O_TS_CEIL", "ceil",         1, expression)); // sfall 3.5
-    SetAt(O_TS_ROUND,                     COpcodeAttributes("O_TS_ROUND", "round",       1, expression)); // sfall 3.5
-    SetAt(O_TS_SAVE_ARRAY,                COpcodeAttributes("O_TS_SAVE_ARRAY", "save_array",     2));
-    SetAt(O_TS_LOAD_ARRAY,                COpcodeAttributes("O_TS_LOAD_ARRAY", "load_array",     1, expression));
+    SetAt(O_TS_SUBSTR,                    COpcodeAttributes("O_TS_SUBSTR", "substr",   3, expression));
+    SetAt(O_TS_STRLEN,                    COpcodeAttributes("O_TS_STRLEN", "strlen",   1, expression));
+    SetAt(O_TS_SPRINTF,                   COpcodeAttributes("O_TS_SPRINTF", "sprintf", 2, expression));
+    SetAt(O_TS_ORD,                       COpcodeAttributes("O_TS_ORD", "charcode",    1, expression)); // sfall 3.5
+    //SetAt(O_TS_RESERVD2,                COpcodeAttributes("O_TS_RESERVD2", "substr",   3, expression));
+    SetAt(O_TS_TYPEOF,                    COpcodeAttributes("O_TS_TYPEOF", "typeof",   1, expression));
+    SetAt(O_TS_LOG,                       COpcodeAttributes("O_TS_LOG", "log",         1, expression)); // sfall 3.5
+    SetAt(O_TS_EXP,                       COpcodeAttributes("O_TS_EXP", "exponent",    1, expression)); // sfall 3.5
+    SetAt(O_TS_CEIL,                      COpcodeAttributes("O_TS_CEIL", "ceil",       1, expression)); // sfall 3.5
+    SetAt(O_TS_ROUND,                     COpcodeAttributes("O_TS_ROUND", "round",     1, expression)); // sfall 3.5
+    SetAt(O_TS_SAVE_ARRAY,                COpcodeAttributes("O_TS_SAVE_ARRAY", "save_array",   2));
+    SetAt(O_TS_LOAD_ARRAY,                COpcodeAttributes("O_TS_LOAD_ARRAY", "load_array",   1, expression));
     SetAt(O_TS_GET_ARRAY_KEY,             COpcodeAttributes("O_TS_GET_ARRAY_KEY", "array_key", 2, expression));
-    SetAt(O_TS_STACK_ARRAY,               COpcodeAttributes("O_TS_STACK_ARRAY", "arrayexpr",     2, expression));
+    SetAt(O_TS_STACK_ARRAY,               COpcodeAttributes("O_TS_STACK_ARRAY", "arrayexpr",   2, expression));
 
-    SetAt(O_TS_REG_ANIM_DESTROY,          COpcodeAttributes("O_TS_REG_ANIM_DESTROY", "reg_anim_destroy", 1));
+    SetAt(O_TS_REG_ANIM_DESTROY,          COpcodeAttributes("O_TS_REG_ANIM_DESTROY", "reg_anim_destroy",                   1));
     SetAt(O_TS_REG_ANIM_ANIMATE_AND_HIDE, COpcodeAttributes("O_TS_REG_ANIM_ANIMATE_AND_HIDE", "reg_anim_animate_and_hide", 3));
-    SetAt(O_TS_REG_ANIM_COMBAT_CHECK,     COpcodeAttributes("O_TS_REG_ANIM_COMBAT_CHECK", "reg_anim_combat_check", 1));
-    SetAt(O_TS_REG_ANIM_LIGHT,            COpcodeAttributes("O_TS_REG_ANIM_LIGHT", "reg_anim_light",     3));
-    SetAt(O_TS_REG_ANIM_CHANGE_FID,       COpcodeAttributes("O_TS_REG_ANIM_CHANGE_FID", "reg_anim_change_fid",   3));
-    SetAt(O_TS_REG_ANIM_TAKE_OUT,         COpcodeAttributes("O_TS_REG_ANIM_TAKE_OUT", "reg_anim_take_out",  3));
-    SetAt(O_TS_REG_ANIM_TURN_TOWARDS,     COpcodeAttributes("O_TS_REG_ANIM_TURN_TOWARDS", "reg_anim_turn_towards",  3));
+    SetAt(O_TS_REG_ANIM_COMBAT_CHECK,     COpcodeAttributes("O_TS_REG_ANIM_COMBAT_CHECK", "reg_anim_combat_check",         1));
+    SetAt(O_TS_REG_ANIM_LIGHT,            COpcodeAttributes("O_TS_REG_ANIM_LIGHT", "reg_anim_light",                       3));
+    SetAt(O_TS_REG_ANIM_CHANGE_FID,       COpcodeAttributes("O_TS_REG_ANIM_CHANGE_FID", "reg_anim_change_fid",             3));
+    SetAt(O_TS_REG_ANIM_TAKE_OUT,         COpcodeAttributes("O_TS_REG_ANIM_TAKE_OUT", "reg_anim_take_out",                 3));
+    SetAt(O_TS_REG_ANIM_TURN_TOWARDS,     COpcodeAttributes("O_TS_REG_ANIM_TURN_TOWARDS", "reg_anim_turn_towards",         3));
 
-    SetAt(O_TS_EXPLOSIONS_METARULE,       COpcodeAttributes("O_TS_EXPLOSIONS_METARULE", "metarule2_explosions",    3, expression));
+    SetAt(O_TS_EXPLOSIONS_METARULE,       COpcodeAttributes("O_TS_EXPLOSIONS_METARULE", "metarule2_explosions",            3, expression));
 
     // sfall 3.5
-    SetAt(O_TS_REGISTER_HOOK_PROC, COpcodeAttributes("O_TS_REGISTER_HOOK_PROC", "register_hook_proc",    2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[1], 1));
-    SetAt(O_TS_POW, COpcodeAttributes("O_POW", "^", 2, expression, infix));
-    SetAt(O_TS_MESSAGE_STR_GAME, COpcodeAttributes("O_TS_MESSAGE_STR_GAME", "message_str_game",  2, expression));
-    SetAt(O_TS_SNEAK_SUCCESS, COpcodeAttributes("O_TS_SNEAK_SUCCESS", "sneak_success",   0, expression));
-    SetAt(O_TS_TILE_LIGHT, COpcodeAttributes("O_TS_SNEAK_SUCCESS", "tile_light",     2, expression));
-    SetAt(O_TS_MAKE_STRAIGHT_PATH, COpcodeAttributes("O_TS_MAKE_STRAIGHT_PATH", "obj_blocking_line",     3, expression));
-    SetAt(O_TS_OBJ_BLOCKING_AT, COpcodeAttributes("O_TS_OBJ_BLOCKING_AT", "obj_blocking_tile",   3, expression));
-    SetAt(O_TS_TILE_GET_OBJECTS, COpcodeAttributes("O_TS_TILE_GET_OBJECTS", "tile_get_objs",     2, expression));
-    SetAt(O_TS_GET_PARTY_MEMBERS, COpcodeAttributes("O_TS_GET_PARTY_MEMBERS", "party_member_list",   1, expression));
-    SetAt(O_TS_PATH_FIND, COpcodeAttributes("O_TS_PATH_FIND", "path_find_to",    3, expression));
-    SetAt(O_TS_CREATE_SPATIAL, COpcodeAttributes("O_TS_CREATE_SPATIAL", "create_spatial",    4, expression));
-    SetAt(O_TS_ART_EXISTS, COpcodeAttributes("O_TS_ART_EXISTS", "art_exists",    1, expression));
-    SetAt(O_TS_OBJ_IS_CARRYING_OBJ, COpcodeAttributes("O_TS_OBJ_IS_CARRYING_OBJ", "obj_is_carrying_obj",     2, expression));
+    SetAt(O_TS_REGISTER_HOOK_PROC,  COpcodeAttributes("O_TS_REGISTER_HOOK_PROC", "register_hook_proc",   2, COpcodeAttributes::TYPE_STATEMENT, COpcodeAttributes::CATEGORY_PREFIX, &procArgs[1], 1));
+    SetAt(O_TS_POW,                 COpcodeAttributes("O_TS_POW", "^",                                   2, expression, infix));
+    SetAt(O_TS_MESSAGE_STR_GAME,    COpcodeAttributes("O_TS_MESSAGE_STR_GAME", "message_str_game",       2, expression));
+    SetAt(O_TS_SNEAK_SUCCESS,       COpcodeAttributes("O_TS_SNEAK_SUCCESS", "sneak_success",             0, expression));
+    SetAt(O_TS_TILE_LIGHT,          COpcodeAttributes("O_TS_TILE_LIGHT", "tile_light",                   2, expression));
+    SetAt(O_TS_MAKE_STRAIGHT_PATH,  COpcodeAttributes("O_TS_MAKE_STRAIGHT_PATH", "obj_blocking_line",    3, expression));
+    SetAt(O_TS_OBJ_BLOCKING_AT,     COpcodeAttributes("O_TS_OBJ_BLOCKING_AT", "obj_blocking_tile",       3, expression));
+    SetAt(O_TS_TILE_GET_OBJECTS,    COpcodeAttributes("O_TS_TILE_GET_OBJECTS", "tile_get_objs",          2, expression));
+    SetAt(O_TS_GET_PARTY_MEMBERS,   COpcodeAttributes("O_TS_GET_PARTY_MEMBERS", "party_member_list",     1, expression));
+    SetAt(O_TS_PATH_FIND,           COpcodeAttributes("O_TS_PATH_FIND", "path_find_to",                  3, expression));
+    SetAt(O_TS_CREATE_SPATIAL,      COpcodeAttributes("O_TS_CREATE_SPATIAL", "create_spatial",           4, expression));
+    SetAt(O_TS_ART_EXISTS,          COpcodeAttributes("O_TS_ART_EXISTS", "art_exists",                   1, expression));
+    SetAt(O_TS_OBJ_IS_CARRYING_OBJ, COpcodeAttributes("O_TS_OBJ_IS_CARRYING_OBJ", "obj_is_carrying_obj", 2, expression));
 
     // sfall 3.8
     SetAt(O_TS_SFALL_METARULE0, COpcodeAttributes("O_TS_SFALL_METARULE0", "sfall_func0", 1, expression));
@@ -810,5 +808,5 @@ COpcode::CF2OpcodeAttributesMap::CF2OpcodeAttributesMap()
 
     SetAt(O_STRINGOP, COpcodeAttributes("O_STRINGOP", "", 0, expression));
     SetAt(O_FLOATOP, COpcodeAttributes("O_FLOATOP", "", 0, expression));
-    SetAt(O_INTOP,  COpcodeAttributes("O_INTOP", "", 0, expression));
+    SetAt(O_INTOP, COpcodeAttributes("O_INTOP", "", 0, expression));
 }
