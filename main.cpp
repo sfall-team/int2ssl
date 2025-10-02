@@ -41,11 +41,11 @@ bool ProcessCommandLine(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 { 
-    std::cout << "Fallout script decompiler, version 8.4.9 (sfall edition)" << std::endl
-              << "Copyright (C) Anchorite (TeamX), 2005-2009" << std::endl
-              << "anchorite2001@yandex.ru" << std::endl
-              << "Continued by Nirran, phobos2077 (2014-2025), Mr.Stalin (2018-2021)" << std::endl
-              << "Crossplatformed by alexeevdv (2015)" << std::endl;
+    std::cout << "Fallout script decompiler, version 8.4.9 (sfall edition)\n"
+              << "Copyright (C) Anchorite (TeamX), 2005-2009\n"
+              << "anchorite2001@yandex.ru\n"
+              << "Continued by Nirran, phobos2077 (2014-2025), Mr.Stalin (2018-2021)\n"
+              << "Crossplatformed by alexeevdv (2015)\n" << std::endl;
 
     if (argc < 2 || !ProcessCommandLine(argc, argv))
     {
@@ -143,17 +143,16 @@ int main(int argc, char* argv[])
 
 void PrintUsage(std::string filename)
 {
-    std::cout << "Usage: " << filename <<  " [options] [-s value] file.int [file.ssl]" << std::endl
-              << "Example: " << filename << " -d-1-a-b-e-s3 random.int" << std::endl
-              << std::endl
-              << "Options" << std::endl
-              << "  -d: dump file" << std::endl
-              << "  -1: input file is Fallout 1 script" << std::endl
-              << "  -a: ignore wrong number of arguments" << std::endl
-              << "  -b: insert omitted arguments backward" << std::endl
-              << "  -s: use Space instead of tab to indent" << std::endl
-              << "  -e: stop decompiling on error" << std::endl
-              << "  -c: use AND/OR operators for short-circuit evaluation" << std::endl
+    std::cout << "Usage: " << filename <<  " [options] [-s value] file.int [file.ssl]\n\n"
+              << "Example: " << filename << " -d-1-a-b-e-s3 random.int\n\n"
+              << "Options:\n"
+              << "  -d: dump file\n"
+              << "  -1: input file is Fallout 1 script\n"
+              << "  -a: ignore wrong number of arguments\n"
+              << "  -b: insert omitted arguments backward\n"
+              << "  -s: use Space instead of tab to indent\n"
+              << "  -e: stop decompiling on error\n"
+              << "  -c: use AND/OR operators for short-circuit evaluation\n"
               << "  --: end of options" << std::endl;
 }
 
